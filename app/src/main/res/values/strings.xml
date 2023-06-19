@@ -2,4 +2,11 @@
     <string name="app_name">News</string>
     <string name="main_title">理工日报</string>
     <string name="main_description">掌上新闻小助手\n第一时间掌握全世界新闻资讯\n校园信息实时发布</string>
+    <string name="Article">article</string>
+    <string name="Homepage">homepage</string>
+    <string name="Login">login</string>
+    <string name="Main">main</string>
+    <string name="Profile">profile</string>
+    <string name="Search">search</string>
+    <string name="Signup">signup</string>
 </resources>

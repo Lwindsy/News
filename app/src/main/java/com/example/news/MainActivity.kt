@@ -37,48 +37,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Background_image(img_name = R.drawable.main)
-                    Main_button_text()
+
                 }
             }
         }
     }
 }
 
-/*TODO : 更改样式*/
-// hhi
-
-@Composable
-fun Background_image(
-    @DrawableRes img_name:Int,
-    modifier: Modifier = Modifier
-){
-    Image(painter = painterResource(id = img_name), contentDescription = "background_img")
-}
-
-@Composable
-fun Main_button_text(
-    modifier: Modifier = Modifier
-){
-    Column {
-        Text(text = stringResource(R.string.main_title))
-        Text(text = stringResource(R.string.main_description))
-        Row(){
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "注册")
-            }
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "登录")
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun prev() {
-    NewsTheme{
-        Background_image(img_name = R.drawable.main)
-        Main_button_text()
-    }
-}
