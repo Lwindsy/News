@@ -18,9 +18,10 @@ import com.example.news.ui.theme.NewsTheme
 /* 界面的效果应如main.jpg 所示*/
 
 /*TODO : 更改按钮，文字样式*/
-
 @Composable
-fun MainScreen() {
+fun MainScreen(
+
+) {
     Background_image(img_name = R.drawable.main)
     Column {
         Text(text = stringResource(R.string.main_title))

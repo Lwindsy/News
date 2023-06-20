@@ -37,3 +37,7 @@ XIII. screen和viewModel之间传递信息统一用UiState。比如SignUpScreen�
     4、用户点击“注册”后，调用viewModel对应的onClicked函数
     5、onClicked函数根据当前UiState的值提交注册信息给数据库
 }
+
+XIV. 关于图片，我会在getArticle、getUserInfo等函数中获取图片并在Compose组件中使用第三方库（Coli or Glide）来加载，你们暂时用Image代替。
+
+XV. 暂时先不考虑登陆失败时信息的返回。我预想的解决方案是将 错误与否 设置为一个UiState，组件中根据此State判断是否显示打印显示信息以及打印何种信息（用户名不存在、密码错误等等）
