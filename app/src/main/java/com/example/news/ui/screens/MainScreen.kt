@@ -14,18 +14,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.news.R
 import com.example.news.ui.theme.NewsTheme
 
-/* 注意！你不应该在Screen部分更改State！ */
+// 注意！你不应该在Screen部分更改State
 /* 界面的效果应如main.jpg 所示*/
 
 /*TODO : 更改按钮，文字样式*/
 
 @Composable
-fun MainScreen(){
+fun MainScreen() {
     Background_image(img_name = R.drawable.main)
     Column {
         Text(text = stringResource(R.string.main_title))
         Text(text = stringResource(R.string.main_description))
-        Row(){
+        Row() {
             Button(onClick = { /*TODO*/ }) {
                 Text(text = "注册")
             }
@@ -39,16 +39,16 @@ fun MainScreen(){
 /* TODO: 更改背景图片 */
 @Composable
 fun Background_image(
-    @DrawableRes img_name:Int,
+    @DrawableRes img_name: Int,
     modifier: Modifier = Modifier
-){
+) {
     Image(painter = painterResource(id = img_name), contentDescription = "background_img")
 }
 
 @Preview
 @Composable
 fun prev() {
-    NewsTheme{
+    NewsTheme {
         MainScreen()
     }
 }

@@ -3,6 +3,7 @@ package com.example.news.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,9 +25,10 @@ import com.example.news.ui.screens.MainScreen
 import com.example.news.ui.screens.ProfileScreen
 import com.example.news.ui.screens.SearchScreen
 import com.example.news.ui.screens.SignUpScreen
+import com.example.news.ui.viewmodel.NewsAppViewModel
 
 // for navigation
-enum class AllScreen(@StringRes val title: Int){
+enum class AllScreen(@StringRes val title: Int) {
     Article(title = R.string.Article),
     HomePage(title = R.string.Homepage),
     Login(title = R.string.Login),
@@ -39,7 +42,7 @@ enum class AllScreen(@StringRes val title: Int){
 fun NewsAppBar(
     modifier: Modifier = Modifier,
     currentScreen: AllScreen,
-){
+) {
     /* TODO 完善这个bar：①针对每一个不同的screen有不同的bar ②样式调好 */
 }
 
@@ -56,8 +59,9 @@ fun composable(route: Any, function: () -> Unit) {
 @Composable
 fun NewsApp(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
-){
+    navController: NavHostController = rememberNavController(),
+    viewModel: NewsAppViewModel = NewsAppViewModel()
+) {
 
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -66,6 +70,7 @@ fun NewsApp(
         backStackEntry?.destination?.route ?: AllScreen.Main.name
     )
 
+    /* TODO 把screen定义好。OnClicked函数应在调用处定义为lambda表达式，内部调用viewmodel的函数 */
     Scaffold(
         topBar = {
             NewsAppBar(currentScreen = currentScreen)
@@ -76,7 +81,7 @@ fun NewsApp(
             navController = navController,
             startDestination = AllScreen.Main.name,
             modifier = Modifier.padding(innerPadding)
-        ){
+        ) {
             composable(route = AllScreen.Main.name) {
                 MainScreen(
 

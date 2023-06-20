@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 *   ④两个新闻列表各写一个Card用于显示文章信息
 *   ⑤会有一个函数返回一个Article对象用于给Card提供信息，直接调用即可*/
 
-/* 注意！你不应该在Screen部分更改State！ */
+// 注意！你不应该在Screen部分更改State
 @Composable
 fun HomePageScreen(
 
-){
+) {
 
 }
