@@ -1,5 +1,6 @@
 
-for 孙振林 {
+for 孙振林
+{
     I. 数据库返回的都是json文件格式，直接用来更新各个UiState即可。
 
     II. viewModel层处理来自screen的点击、输入，根据这些用户操作来update各个UiState。
@@ -14,30 +15,35 @@ for 孙振林 {
         3、按时间排序评论
     }
 
-    XII. 对于每一个articleCard，其应该与唯一的一篇article绑定。为了达到此目的，ArticleItem内定义了Id，后续点击Card或者Entry时也需要利用此ID调用App传来的操作函数，从而
+    VI. 对于每一个articleCard，其应该与唯一的一篇article绑定。为了达到此目的，ArticleItem内定义了Id，后续点击Card或者Entry时也需要利用此ID调用App传来的操作函数，从而
         到数据库查到正确的文章。
 
-    IX. 必须在首次进入Homepage的时候就初始化好它的内容。为了达到这个目的，请尝试：{
+    VII. 必须在首次进入Homepage的时候就初始化好它的内容。为了达到这个目的，请尝试：{
         1、在登录成功时就调用函数更新接下来界面需要的UiState
         2、（1行不通时再想）
     }
+
+    VIII. （此为美好设想）用户可以设置自己的头像并上传至数据库
 }
-for All{
-    VI. 下拉屏幕应可以刷新整个screen（仅当前screen）
 
-    VII. 搜索窗口搜索之后，跳到searchScreen，显示出查询的结果
 
-    VIII. （此为美好设想）为按钮的点击实现流畅的动画
+for All
+{
+    I. 下拉屏幕应可以刷新整个screen（仅当前screen）
 
-    XIV. 关于图片，我会在getArticle、getUserInfo等函数中获取图片并在Compose组件中使用第三方库（Coli or Glide）来加载，你们暂时用Image代替。
+    II. 搜索窗口搜索之后，跳到searchScreen，显示出查询的结果
 
-    XV. 暂时先不考虑登陆失败时信息的返回。我预想的解决方案是将 错误与否 设置为一个UiState，组件中根据此State判断是否显示打印显示信息以及打印何种信息（用户名不存在、密码错误等等）
+    III. （此为美好设想）为按钮的点击实现流畅的动画
 
-    X. 在NewsApp.kt中的screen调用处直接定义好各个screen需要的操作lambda，如buttonClicked = {更改当前screen；更新UiState；返回上一级Screen；}
+    IV. 关于图片，我会在getArticle、getUserInfo等函数中获取图片并在Compose组件中使用第三方库（Coli or Glide）来加载，你们暂时用Image代替。
 
-    XI. screen所需要接收的UiState应该由其参数定义，在App的调用处利用viemodel传参给screen
+    V. 暂时先不考虑登陆失败时信息的返回。我预想的解决方案是将 错误与否 设置为一个UiState，组件中根据此State判断是否显示打印显示信息以及打印何种信息（用户名不存在、密码错误等等）
 
-    XIII. screen和viewModel之间传递信息统一用UiState。比如SignUpScreen的注册填写用户名和密码的代码逻辑应该是这样的：{
+    VI. 在NewsApp.kt中的screen调用处直接定义好各个screen需要的操作lambda，如buttonClicked = {更改当前screen；更新UiState；返回上一级Screen；}
+
+    VII. screen所需要接收的UiState应该由其参数定义，在App的调用处利用viemodel传参给screen
+
+    VIII. screen和viewModel之间传递信息统一用UiState。比如SignUpScreen的注册填写用户名和密码的代码逻辑应该是这样的：{
         1、viewModel内定义好UserNameUiState,PasswordUiState,SignUpResultUiState(这三个东西我已经打包成SignUpUiState了)
         2、用户在screen中操作，输入name和psw
         3、这些值实时的改变UiState（利用viewModel提供的函数）
