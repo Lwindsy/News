@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -63,7 +67,7 @@ fun SignUpScreen(
             Image(
                 painterResource(R.drawable.main_one),
                 contentDescription = "background_img",
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop        // 缩放背景
             )
 
             /*
@@ -73,45 +77,58 @@ fun SignUpScreen(
                 modifier = modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Spacer(Modifier.height(30.dp))  // 增加间隔
+                Spacer(Modifier.height(80.dp))  // 增加间隔
 
+                /* TODO
+                * 加一个返回标签
+                *  */
                 Text(
                     text = stringResource(R.string.signUp_head),
                     color = Color.Black,
-                    fontSize = 30.sp,
-                    modifier = Modifier.padding(start = 10.dp)
+                    fontSize = 36.sp,
+                    modifier = Modifier.padding(start = 15.dp)
+//                        .background(color = Color.Gray.copy(alpha = ))
                 )
 
-                Spacer(Modifier.height(30.dp))  // 增加间隔
+                Spacer(Modifier.height(40.dp))  // 增加间隔
 
                 Text(
                     text = stringResource(R.string.signUp_username),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
-                InputField_SignUp(
+                InputField(
                     value = username,
-                    onValueChange = { username = it }
+                    onValueChange = { username = it },
+                    obscureText = false
                 )
 
                 Text(
                     text = stringResource(R.string.signUp_password),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
-                InputField_SignUp(
+                InputField(
                     value = pwd,
-                    onValueChange = { password = it }
+                    onValueChange = { password = it },
+                    obscureText = true
                 )
 
                 Text(
                     text = stringResource(R.string.signUp_password_two),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
-                InputField_SignUp(
+                InputField(
                     value = cpwd,
-                    onValueChange = { checkPassword = it }
+                    onValueChange = { checkPassword = it },
+                    obscureText = true
                 )
 
-                Spacer(Modifier.height(10.dp))  // 增加间隔
+                Spacer(Modifier.height(120.dp))  // 增加间隔
 
                 Text(
                     text = stringResource(R.string.signUp_terms),
@@ -120,11 +137,19 @@ fun SignUpScreen(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
 
-                Spacer(Modifier.height(100.dp))  // 增加间隔
+                Spacer(Modifier.height(10.dp))  // 增加间隔
 
                 Button(
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                    onClick = { /*TODO*/ }
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .size(width = 280.dp, height = 50.dp),
+                    onClick = { /*TODO*/ },
+                    shape = AbsoluteRoundedCornerShape(//圆角
+                        topLeft = 10.dp,
+                        topRight = 10.dp,
+                        bottomLeft = 10.dp,
+                        bottomRight = 10.dp
+                    )
                 ) {
                     Text(text = stringResource(R.string.signUp_button))
                 }
@@ -135,16 +160,22 @@ fun SignUpScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputField_SignUp(
+fun InputField(
     /* 状态提升 */
     value: String,                  // 当前要显示的值
+    obscureText: Boolean,
     onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
     modifier: Modifier = Modifier
+
 ) {
     TextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 15.dp, end = 15.dp)
+            .clip(RoundedCornerShape(20)),
         singleLine = true,          // 水平滑动
         value = value,              // 框中的值
         onValueChange = onValueChange,
-    )
+
+        )
 }

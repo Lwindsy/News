@@ -10,7 +10,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -26,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -56,12 +61,10 @@ fun LoginScreen(
         var password by remember { mutableStateOf("") }
         val pwd = password ?: ""
 
-        // 外层使用 Box 布局包裹
         Box {
             Image(
                 painterResource(R.drawable.main_one),
                 contentDescription = "background_img",
-                // 缩放背景
                 contentScale = ContentScale.Crop
             )
 
@@ -78,13 +81,14 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.login_head_one),
                     color = Color.Black,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    fontSize = 36.sp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
                 )
                 Text(
                     text = stringResource(R.string.login_head_two),
                     color = Color.Black,
-                    fontSize = 30.sp,
+                    fontSize = 36.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(
@@ -97,7 +101,9 @@ fun LoginScreen(
 
                 Text(
                     text = stringResource(R.string.login_username),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
                 InputField(
                     value = username,
@@ -105,7 +111,9 @@ fun LoginScreen(
                 )
                 Text(
                     text = stringResource(R.string.login_password),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
                 InputField(
                     value = pwd,
@@ -121,23 +129,35 @@ fun LoginScreen(
                     Text(
                         text = stringResource(R.string.login_remember),
                         color = Color.Black,
-
-                        )
-                    Spacer(Modifier.width(200.dp))  // 增加间隔
+                    )
+                    Spacer(Modifier.width(180.dp))  // 增加间隔
 
                     Text(
                         text = stringResource(R.string.login_helper),
-                        color = Color.Black
+                        color = Color.Black,
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterVertically)
                     )
                 }
 
                 Spacer(Modifier.height(100.dp))  // 增加间隔
 
                 Button(
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                    onClick = { /*TODO*/ }
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .size(width = 280.dp, height = 50.dp),
+                    onClick = { /*TODO*/ },
+                    shape = AbsoluteRoundedCornerShape(//圆角
+                        topLeft = 10.dp,
+                        topRight = 10.dp,
+                        bottomLeft = 10.dp,
+                        bottomRight = 10.dp
+                    )
                 ) {
-                    Text(text = stringResource(R.string.login_button))
+                    Text(
+                        text = stringResource(R.string.login_button),
+                        fontSize = 24.sp
+                    )
                 }
             }
         }
@@ -153,11 +173,15 @@ fun InputField(
     modifier: Modifier = Modifier
 ) {
     TextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 15.dp, end = 15.dp)
+            .clip(RoundedCornerShape(20)),
         singleLine = true,          // 水平滑动
         value = value,              // 框中的值
         onValueChange = onValueChange,
-    )
+
+        )
 }
 
 @Preview
