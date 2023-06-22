@@ -4,9 +4,29 @@
     <string name="main_description">掌上新闻小助手\n第一时间掌握全世界新闻资讯\n校园信息实时发布</string>
     <string name="Article">article</string>
     <string name="Homepage">homepage</string>
-    <string name="Login">login</string>
+
     <string name="Main">main</string>
     <string name="Profile">profile</string>
     <string name="Search">search</string>
+
+    <!-- 登录 -->
+    <string name="Login">login</string>
+    <string name="login_head_one">欢迎回到</string>
+    <string name="login_head_two">理工日报</string>
+    <string name="login_head_three">没有账号？注册</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="login_remember">记住用户</string>
+    <string name="login_helper">忘记密码？</string>
+    <string name="login_button">登录</string>
+
+    <!-- 注册 -->
     <string name="Signup">signup</string>
+    <string name="signUp_head">注册并开始</string>
+    <string name="signUp_username">用户名</string>
+    <string name="signUp_password">密码</string>
+    <string name="signUp_password_two">确认密码</string>
+    <string name="signUp_terms">注册账号证明您同意我们的相关服务条款及细则</string>
+    <string name="signUp_button">立即注册</string>
+
 </resources>

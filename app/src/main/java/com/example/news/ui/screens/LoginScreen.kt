@@ -76,19 +76,19 @@ fun LoginScreen(
                 Spacer(Modifier.height(80.dp))  // 增加间隔
 
                 Text(
-                    text = "欢迎回到",
+                    text = stringResource(R.string.login_head_one),
                     color = Color.Black,
                     fontSize = 30.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(
-                    text = "理工日报",
+                    text = stringResource(R.string.login_head_two),
                     color = Color.Black,
                     fontSize = 30.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(
-                    text = "没有账号？注册",
+                    text = stringResource(R.string.login_head_three),
                     color = Color.Black,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
@@ -96,7 +96,7 @@ fun LoginScreen(
                 Spacer(Modifier.height(30.dp))  // 增加间隔
 
                 Text(
-                    text = "用户名",
+                    text = stringResource(R.string.login_username),
                     color = Color.Black
                 )
                 InputField(
@@ -104,7 +104,7 @@ fun LoginScreen(
                     onValueChange = { username = it }
                 )
                 Text(
-                    text = "密码",
+                    text = stringResource(R.string.login_password),
                     color = Color.Black
                 )
                 InputField(
@@ -119,14 +119,14 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically  // 垂直居中
                 ) {
                     Text(
-                        text = "记住用户",
+                        text = stringResource(R.string.login_remember),
                         color = Color.Black,
 
                         )
                     Spacer(Modifier.width(200.dp))  // 增加间隔
 
                     Text(
-                        text = "忘记密码？",
+                        text = stringResource(R.string.login_helper),
                         color = Color.Black
                     )
                 }
@@ -137,7 +137,7 @@ fun LoginScreen(
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
                     onClick = { /*TODO*/ }
                 ) {
-                    Text(text = "登录")
+                    Text(text = stringResource(R.string.login_button))
                 }
             }
         }
