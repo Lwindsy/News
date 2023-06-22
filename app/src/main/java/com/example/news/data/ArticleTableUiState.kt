@@ -1,11 +1,25 @@
 package com.example.news.data
 
-data class ArticleTableUiState(
+sealed interface SearchTableUiState {
+    data class Success(val searchTable: List<ArticleItem>) : SearchTableUiState
+    object Loading : SearchTableUiState
+    object Error : SearchTableUiState
+}
 
-    /* these Lists would surely be initialized in following code as users operate.*/
+sealed interface HeadArticleTableUiState {
+    data class Success(val headArticleTable: List<ArticleItem>) : HeadArticleTableUiState
+    object Loading : HeadArticleTableUiState
+    object Error : HeadArticleTableUiState
+}
 
-    val searchTable: List<ArticleItem>? = null,
-    val homeTopTable: List<ArticleItem>? = null,
-    val homeBottomTable: List<ArticleItem>? = null,
-    val bookMarkedTable: List<ArticleItem>? = null
-)
+sealed interface BottomArticleTableUiState {
+    data class Success(val bottomArticleTable: List<ArticleItem>) : BottomArticleTableUiState
+    object Loading : BottomArticleTableUiState
+    object Error : BottomArticleTableUiState
+}
+
+sealed interface BookMarkedTableUiState {
+    data class Success(val bookMarkedTable: List<ArticleItem>) : BookMarkedTableUiState
+    object Loading : BookMarkedTableUiState
+    object Error : BookMarkedTableUiState
+}
