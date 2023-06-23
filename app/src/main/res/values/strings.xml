@@ -4,9 +4,7 @@
     <string name="main_description">掌上新闻小助手\n第一时间掌握全世界新闻资讯\n校园信息实时发布</string>
     <string name="Article">article</string>
     <string name="Homepage">homepage</string>
-
     <string name="Main">main</string>
-    <string name="Profile">profile</string>
     <string name="Search">search</string>
 
     <!-- 登录 -->
@@ -29,6 +27,14 @@
     <string name="signUp_terms">注册账号证明您同意我们的相关服务条款及细则</string>
     <string name="signUp_button">立即注册</string>
 
+    <!-- 个人主页 -->
+    <string name="Profile">profile</string>
+    <string name="profile_follow">关注</string>
+    <string name="profile_like">点赞</string>
+    <string name="profile_review">评论</string>
+    <string name="profile_following">我的关注</string>
+    <string name="profile_favorites">收藏夹</string>
+
     <!-- 个人主页测试数据 -->
     <string name="affirmation1">I am strong.</string>
     <string name="affirmation2">I believe in myself.</string>
@@ -40,6 +46,7 @@
     <string name="affirmation8">I have the courage to follow my heart.</string>
     <string name="affirmation9">Things will unfold at precisely the right time.</string>
     <string name="affirmation10">I will be present in all the moments that this day brings.</string>
+
 
 
 </resources>

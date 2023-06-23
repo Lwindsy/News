@@ -40,10 +40,21 @@ import com.example.news.R
 /* TODO UserUiState用于此screen */
 // 注意！你不应该在Screen部分更改State
 
+/**
+ * affirmationList -- 后续改成文章的组合项
+ * followAmountPe -- 关注人数
+ * likeAmount -- 点赞人数
+ * reviewAmount -- 评论人数
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    affirmationList: List<Affirmation>, modifier: Modifier = Modifier
+    affirmationList: List<Affirmation>,
+    followAmountPe: String,
+    likeAmount: String,
+    reviewAmount: String,
+    personalSignature: String,
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
         bottomBar = { PageBottom() }
@@ -72,7 +83,7 @@ fun ProfileScreen(
                     androidx.compose.material3.Text(
                         modifier = Modifier
                             .padding(top = 14.dp),
-                        text = "张三\n我是法外狂徒",
+                        text = personalSignature,
                         color = Color.Black,
                         fontSize = 14.sp
                     )
@@ -91,18 +102,18 @@ fun ProfileScreen(
                     verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
                 ) {
                     androidx.compose.material3.Text(
-                        text = "关注",
+                        text = stringResource(R.string.profile_follow),
                         fontSize = 18.sp,
                     )
                     Spacer(modifier = Modifier.width(40.dp))
                     androidx.compose.material3.Text(
-                        text = "点赞",
+                        text = stringResource(R.string.profile_like),
                         fontSize = 18.sp,
                     )
 
                     Spacer(modifier = Modifier.width(40.dp))
                     androidx.compose.material3.Text(
-                        text = "评论",
+                        text = stringResource(R.string.profile_review),
                         fontSize = 18.sp,
                     )
                 }
@@ -114,20 +125,20 @@ fun ProfileScreen(
                     verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
                 ) {
                     androidx.compose.material3.Text(
-                        text = "110",
+                        text = followAmountPe,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.width(40.dp))
                     androidx.compose.material3.Text(
-                        text = "120",
+                        text = likeAmount,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
 
                     Spacer(modifier = Modifier.width(40.dp))
                     androidx.compose.material3.Text(
-                        text = "119",
+                        text = reviewAmount,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -140,7 +151,7 @@ fun ProfileScreen(
             /* 我的关注列表 */
             item {
                 androidx.compose.material3.Text(
-                    text = "我的关注",
+                    text = stringResource(R.string.profile_following),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 16.dp)
@@ -175,7 +186,7 @@ fun ProfileScreen(
             item {
 
                 androidx.compose.material3.Text(
-                    text = "我的收藏",
+                    text = stringResource(R.string.profile_favorites),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 16.dp)
@@ -220,12 +231,8 @@ fun CollectCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
 @Composable
 fun MyDivider() {
     Divider(
-        //设置分割线的高度
-        thickness = 0.5.dp,
-        //设置分割线的颜色
-        color = Color.Gray,
-        //设置分割线首缩进的大小
-//                startIndent = 20.dp,
+        thickness = 0.5.dp,     //设置分割线的高度
+        color = Color.Gray,     //设置分割线的颜色
         modifier = Modifier.padding(start = 20.dp, end = 20.dp)
     )
 }
@@ -239,12 +246,12 @@ fun PageBottom(
             .fillMaxWidth()
             .height(50.dp)
             .background(color = Color.White),
-        horizontalArrangement = Arrangement.Center,//设置水平居中对齐
-        verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
+        horizontalArrangement = Arrangement.Center,     //设置水平居中对齐
+        verticalAlignment = Alignment.CenterVertically  //设置垂直居中对齐
     ) {
         Image(
             painter = painterResource(id = R.drawable.home_icon_light),
-            contentDescription = "",
+            contentDescription = "首页",
             modifier = Modifier
                 .clickable {
                     /* TODO
@@ -257,7 +264,7 @@ fun PageBottom(
         Spacer(modifier = Modifier.width(170.dp))
         Image(
             painter = painterResource(id = R.drawable.people_icon_light),
-            contentDescription = "",
+            contentDescription = "个人主页",
             modifier = Modifier
                 .clickable {
                     /* TODO
