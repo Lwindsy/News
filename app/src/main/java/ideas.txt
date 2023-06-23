@@ -11,7 +11,7 @@ for 孙振林
 
     V. （此为美好设想）文章界面右下角的评论按钮点击之后应直接下滑至评论区。如果可以的话，实现：{
         1、滑到评论区时再查询更新评论
-        2、查询部分评论，再往下拉时继续查询新的一部分
+        2、查询部分评论，再往下拉时继续查询新的一部分（直接lazycolumn得了 -on99）
         3、按时间排序评论
     }
 
@@ -19,23 +19,23 @@ for 孙振林
         到数据库查到正确的文章。
 
     VII. 必须在首次进入Homepage的时候就初始化好它的内容。为了达到这个目的，请尝试：{
-        1、在登录成功时就调用函数更新接下来界面需要的UiState
+        1、在登录成功时就调用函数更新接下来界面需要的UiState（或许可以开协程做？？ - on99）
         2、（1行不通时再想）
     }
 
-    VIII. （此为美好设想）用户可以设置自己的头像并上传至数据库
+    VIII. （此为美好设想）用户可以设置自己的头像并上传至数据库 （公用图床 结合 compose的异步图片加载 -on99）
 }
 
 
 for All
 {
-    I. 下拉屏幕应可以刷新整个screen（仅当前screen）
+    I. 下拉屏幕应可以刷新整个screen（仅当前screen）（https://github.com/RugerMcCarthy/SmartSwipeRefresh）
 
     II. 搜索窗口搜索之后，跳到searchScreen，显示出查询的结果
 
-    III. （此为美好设想）为按钮的点击实现流畅的动画
+    III. （此为美好设想）为按钮的点击实现流畅的动画 （compose动画够多的）
 
-    IV. 关于图片，我会在getArticle、getUserInfo等函数中获取图片并在Compose组件中使用第三方库（Coli or Glide）来加载，你们暂时用Image代替。
+    IV. 关于图片，我会在getArticle、getUserInfo等函数中获取图片并在Compose组件中使用第三方库（Coli or Glide）来加载，你们暂时用Image代替。（AsyncImage）
 
     V. 暂时先不考虑登陆失败时信息的返回。我预想的解决方案是将 错误与否 设置为一个UiState，组件中根据此State判断是否显示打印显示信息以及打印何种信息（用户名不存在、密码错误等等）
 
@@ -51,6 +51,8 @@ for All
         5、onClicked函数根据当前UiState的值提交注册信息给数据库
         6、若得到的UiState为成功注册，则跳转至首页，否则打印错误信息
     }
+
+    IX. 使用UiState的Loading,Success,Error等属性控制显示不同的组件。
 }
 
 
