@@ -1,20 +1,22 @@
 package com.example.news.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,8 +48,7 @@ fun SignUpScreen(
     onSignUpButtonClicked: () -> Unit = {}
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        modifier = Modifier.fillMaxSize()
     ) {
         var username by remember { mutableStateOf("") }
         val uname = username ?: ""       // 如果为空就置值为 ""
@@ -56,14 +57,14 @@ fun SignUpScreen(
         val pwd = password ?: ""
 
         var checkPassword by remember { mutableStateOf("") }
-        val cpwd = password ?: ""
+        val cpwd = checkPassword ?: ""
 
         // 外层使用 Box 布局包裹
         Box {
             Image(
                 painterResource(R.drawable.main_one),
                 contentDescription = "background_img",
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop        // 缩放背景
             )
 
             /*
@@ -73,45 +74,64 @@ fun SignUpScreen(
                 modifier = modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Spacer(Modifier.height(30.dp))  // 增加间隔
+                Spacer(modifier = Modifier.height(18.dp))
+                Image(
+                    painterResource(R.drawable.back_icon),
+                    contentDescription = "返回图标",
+                    modifier = Modifier
+                        .padding(start = 15.dp)
+                        .clickable{
+                            /* TODO
+                            * 点击返回
+                            * */
+                            Log.i("ws", "back")
+                        }
+                )
 
                 Text(
                     text = stringResource(R.string.signUp_head),
                     color = Color.Black,
-                    fontSize = 30.sp,
-                    modifier = Modifier.padding(start = 10.dp)
+                    fontSize = 36.sp,
+                    modifier = Modifier.padding(start = 15.dp)
+//                        .background(color = Color.Gray.copy(alpha = ))
                 )
 
-                Spacer(Modifier.height(30.dp))  // 增加间隔
+                Spacer(Modifier.height(40.dp))  // 增加间隔
 
                 Text(
                     text = stringResource(R.string.signUp_username),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
-                InputField_SignUp(
-                    value = username,
-                    onValueChange = { username = it }
+                InputField(
+                    value = uname,
+                    onValueChange = { username = it },
                 )
 
                 Text(
                     text = stringResource(R.string.signUp_password),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
-                InputField_SignUp(
+                PasswordField(
                     value = pwd,
-                    onValueChange = { password = it }
+                    onValueChange = { password = it },
                 )
 
                 Text(
                     text = stringResource(R.string.signUp_password_two),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
-                InputField_SignUp(
+                PasswordField(
                     value = cpwd,
-                    onValueChange = { checkPassword = it }
+                    onValueChange = { checkPassword = it },
                 )
 
-                Spacer(Modifier.height(10.dp))  // 增加间隔
+                Spacer(Modifier.height(60.dp))  // 增加间隔
 
                 Text(
                     text = stringResource(R.string.signUp_terms),
@@ -120,31 +140,38 @@ fun SignUpScreen(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
 
-                Spacer(Modifier.height(100.dp))  // 增加间隔
+                Spacer(Modifier.height(10.dp))  // 增加间隔
 
                 Button(
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                    onClick = { /*TODO*/ }
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .size(width = 280.dp, height = 50.dp),
+                    onClick = { /*TODO*/ },
+                    shape = AbsoluteRoundedCornerShape(//圆角
+                        topLeft = 10.dp,
+                        topRight = 10.dp,
+                        bottomLeft = 10.dp,
+                        bottomRight = 10.dp
+                    )
+
                 ) {
                     Text(text = stringResource(R.string.signUp_button))
                 }
+
+                Spacer(Modifier.height(60.dp))  // 增加间隔
+
+                Text(
+                    text = "已有账号？登录", color = Color.Black,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .clickable {
+                            /* TODO
+                            * 这里定义去到注册页面的点击事件
+                            *
+                            * */
+                            Log.i("ws", "去登录")
+                        })
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun InputField_SignUp(
-    /* 状态提升 */
-    value: String,                  // 当前要显示的值
-    onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,          // 水平滑动
-        value = value,              // 框中的值
-        onValueChange = onValueChange,
-    )
 }

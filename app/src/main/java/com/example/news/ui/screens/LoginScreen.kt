@@ -1,7 +1,8 @@
 package com.example.news.ui.screens
 
-import androidx.annotation.StringRes
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,15 +11,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,12 +56,10 @@ fun LoginScreen(
         var password by remember { mutableStateOf("") }
         val pwd = password ?: ""
 
-        // 外层使用 Box 布局包裹
         Box {
             Image(
                 painterResource(R.drawable.main_one),
                 contentDescription = "background_img",
-                // 缩放背景
                 contentScale = ContentScale.Crop
             )
 
@@ -78,26 +76,37 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.login_head_one),
                     color = Color.Black,
-                    fontSize = 30.sp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    fontSize = 36.sp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
                 )
                 Text(
                     text = stringResource(R.string.login_head_two),
                     color = Color.Black,
-                    fontSize = 30.sp,
+                    fontSize = 36.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(
                     text = stringResource(R.string.login_head_three),
                     color = Color.Black,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .clickable {
+                            /* TODO
+                            * 这里定义去到注册页面的点击事件
+                            *
+                            * */
+                            Log.i("ws", "去注册")
+                        }
                 )
 
                 Spacer(Modifier.height(30.dp))  // 增加间隔
 
                 Text(
                     text = stringResource(R.string.login_username),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
                 InputField(
                     value = username,
@@ -105,9 +114,11 @@ fun LoginScreen(
                 )
                 Text(
                     text = stringResource(R.string.login_password),
-                    color = Color.Black
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
                 )
-                InputField(
+                PasswordField(
                     value = pwd,
                     onValueChange = { password = it }
                 )
@@ -118,50 +129,56 @@ fun LoginScreen(
                     horizontalArrangement = Arrangement.Center,     // 水平居中
                     verticalAlignment = Alignment.CenterVertically  // 垂直居中
                 ) {
+                    /* TODO
+                    * 需要加一个复选框，记住当前用户情况
+                    * */
                     Text(
                         text = stringResource(R.string.login_remember),
                         color = Color.Black,
+                    )
 
-                        )
-                    Spacer(Modifier.width(200.dp))  // 增加间隔
+                    Spacer(Modifier.width(180.dp))  // 增加间隔
 
                     Text(
                         text = stringResource(R.string.login_helper),
-                        color = Color.Black
+                        color = Color.Black,
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterVertically)
+                            .clickable {
+                                /* TODO
+                                * 这里可以定义点击事件
+                                * */
+                                Log.i("1", "忘记密码")
+                            }
                     )
                 }
 
                 Spacer(Modifier.height(100.dp))  // 增加间隔
 
                 Button(
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                    onClick = { /*TODO*/ }
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .size(width = 280.dp, height = 50.dp),
+                    onClick = { /*TODO*/ },
+                    shape = AbsoluteRoundedCornerShape(//圆角
+                        topLeft = 10.dp,
+                        topRight = 10.dp,
+                        bottomLeft = 10.dp,
+                        bottomRight = 10.dp
+                    )
                 ) {
-                    Text(text = stringResource(R.string.login_button))
+                    Text(
+                        text = stringResource(R.string.login_button),
+                        fontSize = 24.sp
+                    )
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun InputField(
-    /* 状态提升 */
-    value: String,                  // 当前要显示的值
-    onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,          // 水平滑动
-        value = value,              // 框中的值
-        onValueChange = onValueChange,
-    )
-}
-
 @Preview
 @Composable
 fun PreLogin() {
-
+    LoginScreen()
 }
