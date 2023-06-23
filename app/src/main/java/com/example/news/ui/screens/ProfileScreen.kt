@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.news.R
 
 /* TODO UserUiState用于此screen */
 // 注意！你不应该在Screen部分更改State
