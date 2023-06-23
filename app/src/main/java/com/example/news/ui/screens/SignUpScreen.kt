@@ -1,6 +1,8 @@
 package com.example.news.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,10 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,8 +46,7 @@ fun SignUpScreen(
     onSignUpButtonClicked: () -> Unit = {}
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        modifier = Modifier.fillMaxSize()
     ) {
         var username by remember { mutableStateOf("") }
         val uname = username ?: ""       // 如果为空就置值为 ""
@@ -120,7 +120,7 @@ fun SignUpScreen(
                     onValueChange = { checkPassword = it },
                 )
 
-                Spacer(Modifier.height(120.dp))  // 增加间隔
+                Spacer(Modifier.height(60.dp))  // 增加间隔
 
                 Text(
                     text = stringResource(R.string.signUp_terms),
@@ -146,6 +146,21 @@ fun SignUpScreen(
                 ) {
                     Text(text = stringResource(R.string.signUp_button))
                 }
+
+                Spacer(Modifier.height(60.dp))  // 增加间隔
+
+                Text(
+                    text = "已有账号？登录", color = Color.Black,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .clickable {
+                            /* TODO
+                            * 这里定义去到注册页面的点击事件
+                            *
+                            * */
+                            Log.i("ws", "去登录")
+                        })
+
             }
         }
     }
