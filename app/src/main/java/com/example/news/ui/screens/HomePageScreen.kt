@@ -8,6 +8,11 @@ import android.provider.CalendarContract.Colors
 import android.provider.Telephony.MmsSms.PendingMessages
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -79,25 +84,38 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.news.MainActivity
 import com.example.news.R
+import com.example.news.data.ArticleItem
 import com.example.news.ui.theme.CustomEdit
-import com.example.news.ui.theme.MyTextField
 import com.example.news.ui.theme.NewsTheme
+import com.example.news.ui.viewmodel.NewsAppViewModel
 
-/* TODO
+/*
 *   ①不用管search窗口，那是NewsBar的活儿
 *   ②注意“世界新闻"需要是一个LazyRow可组合项（可横向滚动）
 *   ③底下的新闻列表/新闻分类也需要是LazyColumn/LazyRow可组合项
 *   ④两个新闻列表各写一个Card用于显示文章信息
-*   ⑤会有一个函数返回一个Article对象用于给Card提供信息，直接调用即可*/
+*   ⑤会有一个函数返回一个Article对象用于给Card提供信息，直接调用即可
+* */
+
+/* TODO */
 
 // 注意！你不应该在Screen部分更改State
 @Composable
-fun HomePageScreen() {
+fun HomePageScreen(
+    modifier: Modifier = Modifier,
+    viewModel: NewsAppViewModel = NewsAppViewModel()
+) {
+
+    val headArticleTableUiState = viewModel.headArticleTableUiState
+    val bottomArticleTableUiState = viewModel.bottomArticleTableUiState
+
+
     //img = artilce_img 这个地方应该是个img集合到时根据ID显示图片
-    val painter = painterResource(id = R.drawable.img)
-    val painter1 = painterResource(id = R.drawable.img)
+    val painter = painterResource(id = R.drawable.z)
+    val painter1 = painterResource(id = R.drawable.head_icon)
     //图片的描述 也可忽视这个
     val des = "this is android test"
     //title = article_title 也应该是个集合，依次显示
@@ -307,6 +325,12 @@ fun HomePageScreen() {
         ) {
             LazyColumn(
                 content = {
+                    /* TODO -> 马小乐 王松
+                        马小乐：请你将这下面这个Box抽象成一个Card组件放到外面。因为这个组件还需要提供给Profile和Search两个页面用于显示信息
+                            这代表着Loading状态下的卡片你也要抽象成一个Card_Loading组件。
+                            记得，card是要可以点击进入文章的，请你使用Modifier.clickable属性
+                        王松：当她抽象完之后，你直接在profile调用并展现即可
+                    */
                     items(listData1) {
                         Box(
                             modifier = Modifier
@@ -415,18 +439,10 @@ fun HomePageScreen() {
     }
 }
 
-
-
-
-
-
-
-
-
 @Preview
 @Composable
 fun PreviewHomePageScreen(){
-
+    HomePageScreen()
 }
 
 @Composable

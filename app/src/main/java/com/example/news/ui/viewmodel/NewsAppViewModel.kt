@@ -98,7 +98,9 @@ class NewsAppViewModel : ViewModel() {
     fun getUserInfo(
 
     ) {
+        viewModelScope.launch {
 
+        }
     }
 
     // 查询文章列表,此处是给首页用的（需要根据不同的类型来查询新闻）

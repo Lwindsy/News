@@ -19,17 +19,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.news.R
-
-/* TODO ArticleTableUiScreen 里的 searchTable 用于此screen */
+import com.example.news.ui.viewmodel.NewsAppViewModel
 
 // 注意！你不应该在Screen部分更改State
 
+/*TODO 这个SearchScreen是用于显示搜索结果的 -> 马小乐
+    请你利用searchTable来
+* */
+
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: NewsAppViewModel = NewsAppViewModel()
 ) {
     var inputValue by remember { mutableStateOf("") }
     val input = inputValue ?: ""
+
+    val searchTableUiState = viewModel.searchTableUiState
 
     Box {
         Image(

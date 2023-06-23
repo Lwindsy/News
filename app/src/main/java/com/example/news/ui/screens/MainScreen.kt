@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -27,17 +26,22 @@ import androidx.compose.ui.unit.sp
 import com.example.news.R
 import com.example.news.ui.theme.NewsTheme
 
-// 注意！你不应该在Screen部分更改State
-/* 界面的效果应如main.jpg 所示*/
-
 /*TODO : 更改按钮，文字样式*/
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    onSignUpButtonClicked: () -> Unit,
+    onLogInButtonClicked: () -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Background_image(img_name = R.drawable.main_one)
+        Background_image(
+            img_name = R.drawable.main_one,
+            onSignUpButtonClicked = onSignUpButtonClicked,
+            onLogInButtonClicked = onLogInButtonClicked
+        )
     }
 }
 
@@ -45,7 +49,11 @@ fun MainScreen(modifier: Modifier = Modifier) {
  * 首页文本区
  */
 @Composable
-fun MainScreenText(modifier: Modifier = Modifier) {
+fun MainScreenText(
+    modifier: Modifier = Modifier,
+    onSignUpButtonClicked: () -> Unit,
+    onLogInButtonClicked: () -> Unit
+) {
     Column(
         // 设置列布局的高度和宽度设为可用的最大值
         modifier = modifier
@@ -69,7 +77,10 @@ fun MainScreenText(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(bottom = 20.dp)
         )
-        MainScreenButton()
+        MainScreenButton(
+            onSignUpButtonClicked = onSignUpButtonClicked,
+            onLogInButtonClicked = onLogInButtonClicked
+        )
     }
 }
 
@@ -77,7 +88,11 @@ fun MainScreenText(modifier: Modifier = Modifier) {
  * 首页的按钮
  */
 @Composable
-fun MainScreenButton(modifier: Modifier = Modifier) {
+fun MainScreenButton(
+    modifier: Modifier = Modifier,
+    onSignUpButtonClicked: () -> Unit,
+    onLogInButtonClicked: () -> Unit
+) {
     Row(
         //
         modifier = Modifier
@@ -89,23 +104,24 @@ fun MainScreenButton(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onSignUpButtonClicked,
             modifier = Modifier.padding(end = 20.dp)    // 调整两个按钮之间的距离
         ) {
             Text(text = "注册")
         }
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = onLogInButtonClicked) {
             Text(text = "登录")
         }
     }
 }
 
-/* TODO: 更改背景图片 */
-/**
- * 背景图片处理
- */
 @Composable
-fun Background_image(@DrawableRes img_name: Int, modifier: Modifier = Modifier) {
+fun Background_image(
+    @DrawableRes img_name: Int,
+    modifier: Modifier = Modifier,
+    onSignUpButtonClicked: () -> Unit,
+    onLogInButtonClicked: () -> Unit
+) {
     // 外层使用 Box 布局包裹
     Box {
         Image(
@@ -114,7 +130,10 @@ fun Background_image(@DrawableRes img_name: Int, modifier: Modifier = Modifier) 
             // 缩放背景
             contentScale = ContentScale.Crop
         )
-        MainScreenText()
+        MainScreenText(
+            onSignUpButtonClicked = onSignUpButtonClicked,
+            onLogInButtonClicked = onLogInButtonClicked
+        )
     }
 }
 
@@ -122,6 +141,6 @@ fun Background_image(@DrawableRes img_name: Int, modifier: Modifier = Modifier) 
 @Composable
 fun Prev() {
     NewsTheme {
-        MainScreen()
+
     }
 }
