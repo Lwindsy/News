@@ -6,11 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
@@ -74,16 +76,35 @@ fun SignUpScreen(
             ) {
                 Spacer(Modifier.height(80.dp))  // 增加间隔
 
-                /* TODO
+                Row(
+                    modifier = Modifier
+                        .height(40.dp),
+                    verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
+
+                ) {
+                    /* TODO
                 * 加一个返回标签
                 *  */
-                Text(
-                    text = stringResource(R.string.signUp_head),
-                    color = Color.Black,
-                    fontSize = 36.sp,
-                    modifier = Modifier.padding(start = 15.dp)
+                    Spacer(modifier = Modifier.width(18.dp))
+                    Image(
+                        painterResource(R.drawable.back_icon),
+                        contentDescription = "返回图标",
+                        modifier = Modifier
+                            .clickable{
+                                /* TODO
+                                * 点击返回
+                                * */
+                                Log.i("ws", "back")
+                            }
+                    )
+                    Text(
+                        text = stringResource(R.string.signUp_head),
+                        color = Color.Black,
+                        fontSize = 36.sp,
+//                        modifier = Modifier.padding(start = 0.dp)
 //                        .background(color = Color.Gray.copy(alpha = ))
-                )
+                    )
+                }
 
                 Spacer(Modifier.height(40.dp))  // 增加间隔
 
@@ -94,7 +115,7 @@ fun SignUpScreen(
                         .padding(start = 15.dp)
                 )
                 InputField(
-                    value = username,
+                    value = uname,
                     onValueChange = { username = it },
                 )
 
@@ -160,9 +181,7 @@ fun SignUpScreen(
                             * */
                             Log.i("ws", "去登录")
                         })
-
             }
         }
     }
 }
-
