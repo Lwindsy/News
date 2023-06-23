@@ -45,6 +45,7 @@ import com.example.news.R
  * followAmountPe -- 关注人数
  * likeAmount -- 点赞人数
  * reviewAmount -- 评论人数
+ * personalSignature -- 个性签名，就是头像后面的名字和骚话
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -204,7 +205,7 @@ fun ProfileScreen(
 }
 
 /**
- * 一个收藏项
+ * 一个收藏项，测试使用
  */
 @Composable
 fun CollectCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
