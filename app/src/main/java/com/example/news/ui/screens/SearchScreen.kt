@@ -33,7 +33,7 @@ fun SearchScreen(
 
     Box {
         Image(
-            painterResource(R.drawable.searchicon),
+            painterResource(R.drawable.main_one),
             contentDescription = "background_img",
             contentScale = ContentScale.Crop
         )

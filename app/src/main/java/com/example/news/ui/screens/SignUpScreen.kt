@@ -74,37 +74,27 @@ fun SignUpScreen(
                 modifier = modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Spacer(Modifier.height(80.dp))  // 增加间隔
-
-                Row(
+                Spacer(modifier = Modifier.height(18.dp))
+                Image(
+                    painterResource(R.drawable.back_icon),
+                    contentDescription = "返回图标",
                     modifier = Modifier
-                        .height(40.dp),
-                    verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
+                        .padding(start = 15.dp)
+                        .clickable{
+                            /* TODO
+                            * 点击返回
+                            * */
+                            Log.i("ws", "back")
+                        }
+                )
 
-                ) {
-                    /* TODO
-                * 加一个返回标签
-                *  */
-                    Spacer(modifier = Modifier.width(18.dp))
-                    Image(
-                        painterResource(R.drawable.back_icon),
-                        contentDescription = "返回图标",
-                        modifier = Modifier
-                            .clickable{
-                                /* TODO
-                                * 点击返回
-                                * */
-                                Log.i("ws", "back")
-                            }
-                    )
-                    Text(
-                        text = stringResource(R.string.signUp_head),
-                        color = Color.Black,
-                        fontSize = 36.sp,
-//                        modifier = Modifier.padding(start = 0.dp)
+                Text(
+                    text = stringResource(R.string.signUp_head),
+                    color = Color.Black,
+                    fontSize = 36.sp,
+                    modifier = Modifier.padding(start = 15.dp)
 //                        .background(color = Color.Gray.copy(alpha = ))
-                    )
-                }
+                )
 
                 Spacer(Modifier.height(40.dp))  // 增加间隔
 
