@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
@@ -60,7 +61,7 @@ fun SignUpScreen(
         val pwd = password ?: ""
 
         var checkPassword by remember { mutableStateOf("") }
-        val cpwd = password ?: ""
+        val cpwd = checkPassword ?: ""
 
         // 外层使用 Box 布局包裹
         Box {
@@ -101,7 +102,6 @@ fun SignUpScreen(
                 InputField(
                     value = username,
                     onValueChange = { username = it },
-                    obscureText = false
                 )
 
                 Text(
@@ -110,10 +110,9 @@ fun SignUpScreen(
                     modifier = Modifier
                         .padding(start = 15.dp)
                 )
-                InputField(
+                PasswordField(
                     value = pwd,
                     onValueChange = { password = it },
-                    obscureText = true
                 )
 
                 Text(
@@ -122,10 +121,9 @@ fun SignUpScreen(
                     modifier = Modifier
                         .padding(start = 15.dp)
                 )
-                InputField(
+                PasswordField(
                     value = cpwd,
                     onValueChange = { checkPassword = it },
-                    obscureText = true
                 )
 
                 Spacer(Modifier.height(120.dp))  // 增加间隔
@@ -150,6 +148,7 @@ fun SignUpScreen(
                         bottomLeft = 10.dp,
                         bottomRight = 10.dp
                     )
+
                 ) {
                     Text(text = stringResource(R.string.signUp_button))
                 }
@@ -158,24 +157,3 @@ fun SignUpScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun InputField(
-    /* 状态提升 */
-    value: String,                  // 当前要显示的值
-    obscureText: Boolean,
-    onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
-    modifier: Modifier = Modifier
-
-) {
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 15.dp, end = 15.dp)
-            .clip(RoundedCornerShape(20)),
-        singleLine = true,          // 水平滑动
-        value = value,              // 框中的值
-        onValueChange = onValueChange,
-
-        )
-}

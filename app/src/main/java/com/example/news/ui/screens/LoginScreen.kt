@@ -1,7 +1,9 @@
 package com.example.news.ui.screens
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -94,7 +97,15 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.login_head_three),
                     color = Color.Black,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .clickable {
+                            /* TODO
+                            * 这里定义去到注册页面的点击事件
+                            *
+                            * */
+                            Log.i("ws", "去注册")
+                        }
                 )
 
                 Spacer(Modifier.height(30.dp))  // 增加间隔
@@ -115,7 +126,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .padding(start = 15.dp)
                 )
-                InputField(
+                PasswordField(
                     value = pwd,
                     onValueChange = { password = it }
                 )
@@ -126,10 +137,14 @@ fun LoginScreen(
                     horizontalArrangement = Arrangement.Center,     // 水平居中
                     verticalAlignment = Alignment.CenterVertically  // 垂直居中
                 ) {
+                    /* TODO
+                    * 需要加一个复选框，记住当前用户情况
+                    * */
                     Text(
                         text = stringResource(R.string.login_remember),
                         color = Color.Black,
                     )
+
                     Spacer(Modifier.width(180.dp))  // 增加间隔
 
                     Text(
@@ -137,6 +152,12 @@ fun LoginScreen(
                         color = Color.Black,
                         modifier = Modifier
                             .align(alignment = Alignment.CenterVertically)
+                            .clickable {
+                                /* TODO
+                                * 这里可以定义点击事件
+                                * */
+                                Log.i("1", "忘记密码")
+                            }
                     )
                 }
 
@@ -164,10 +185,13 @@ fun LoginScreen(
     }
 }
 
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputField(
-    /* 状态提升 */
+    */
+/* 状态提升 *//*
+
     value: String,                  // 当前要显示的值
     onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
     modifier: Modifier = Modifier
@@ -180,12 +204,32 @@ fun InputField(
         singleLine = true,          // 水平滑动
         value = value,              // 框中的值
         onValueChange = onValueChange,
-
-        )
+    )
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PasswordField(
+    value: String,                  // 当前要显示的值
+    onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 15.dp, end = 15.dp)
+            .clip(RoundedCornerShape(20)),
+        singleLine = true,          // 水平滑动
+        value = value,              // 框中的值
+        onValueChange = onValueChange,
+        visualTransformation = PasswordVisualTransformation()
+    )
+
+}
+*/
 
 @Preview
 @Composable
 fun PreLogin() {
-
+    LoginScreen()
 }
