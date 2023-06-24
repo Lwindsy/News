@@ -8,6 +8,11 @@ import android.provider.CalendarContract.Colors
 import android.provider.Telephony.MmsSms.PendingMessages
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -79,25 +84,46 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.news.MainActivity
 import com.example.news.R
+import com.example.news.data.ArticleItem
+import com.example.news.ui.AllScreen
 import com.example.news.ui.theme.CustomEdit
-import com.example.news.ui.theme.MyTextField
+import com.example.news.ui.theme.LongCard
 import com.example.news.ui.theme.NewsTheme
+import com.example.news.ui.theme.ShortCard
+import com.example.news.ui.viewmodel.NewsAppViewModel
 
-/* TODO
+/*
 *   ①不用管search窗口，那是NewsBar的活儿
 *   ②注意“世界新闻"需要是一个LazyRow可组合项（可横向滚动）
 *   ③底下的新闻列表/新闻分类也需要是LazyColumn/LazyRow可组合项
 *   ④两个新闻列表各写一个Card用于显示文章信息
-*   ⑤会有一个函数返回一个Article对象用于给Card提供信息，直接调用即可*/
+*   ⑤会有一个函数返回一个Article对象用于给Card提供信息，直接调用即可
+* */
+
+/* TODO */
 
 // 注意！你不应该在Screen部分更改State
 @Composable
-fun HomePageScreen() {
+fun HomePageScreen(
+    //OnClickExp: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: NewsAppViewModel = NewsAppViewModel()
+
+) {
+    val navController = rememberNavController()
+    val headArticleTableUiState = viewModel.headArticleTableUiState
+    val bottomArticleTableUiState = viewModel.bottomArticleTableUiState
+    //
+    var inputValue by remember { mutableStateOf("") }
+    val input = inputValue ?: ""
     //img = artilce_img 这个地方应该是个img集合到时根据ID显示图片
-    val painter = painterResource(id = R.drawable.img)
-    val painter1 = painterResource(id = R.drawable.img)
+    val painter = painterResource(id = R.drawable.z)
+    val painter1 = painterResource(id = R.drawable.head_icon)
     //图片的描述 也可忽视这个
     val des = "this is android test"
     //title = article_title 也应该是个集合，依次显示
@@ -113,22 +139,24 @@ fun HomePageScreen() {
         Box(modifier = Modifier
             .width(400.dp)
             .height(70.dp)
-            .background(Color.White),){
-            CustomEdit(
-                //这个地方应该是根据输入的文本显示相应文章
-                //text = searchText,
-                onValueChange = {
-                    //searchText = it
-                },
-                hint = "习近平在金砖国家领导人第十四次会晤上的讲话",
+            .background(Color.White)
+            .clickable {  }//点击搜索跳转SearchScreen()
+        ){
+            SearchField(
+                text = input,
+                onValueChange = { inputValue = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 10.dp, end = 16.dp, bottom = 10.dp)
+                    .padding(start = 50.dp, top = 20.dp, end = 50.dp)
                     .height(40.dp)
-                    .background(Color(0xBCE9E9E9), shape = MaterialTheme.shapes.medium)
+                    .background(
+                        Color.White,
+                        shape = androidx.compose.material.MaterialTheme.shapes.medium
+                    )
                     .padding(horizontal = 16.dp),
-                textStyle = TextStyle.Default,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                hint = "搜索热门新闻",
+                startIcon = R.drawable.searchicon,
+                iconSpacing = 16.dp,
             )
 
         }
@@ -144,47 +172,7 @@ fun HomePageScreen() {
         LazyRow(content = {
             items(listData){
                 Spacer(modifier = Modifier.width(5.dp))
-                Card(
-                    modifier = Modifier.size(width = 175.dp, height = 160.dp),
-                    shape = RoundedCornerShape(15.dp),
-                ) {
-                    Box(modifier = Modifier.height(200.dp)) {
-                        Image(
-                            painter = painter,
-                            contentDescription = des,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.size(width = 175.dp, height = 160.dp),
-                        )
-                        //拉渐变
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color.Transparent,
-                                            Color.Black
-                                        ),
-                                        startY = 300f//数据越大黑色越少
-                                    )
-                                )
-                        ) {
-                            Box(modifier = Modifier
-                                .width(100.dp)
-                                .height(100.dp),
-                                contentAlignment= Alignment.BottomEnd
-                            ) {
-                                Text(
-                                    title,
-                                    style = TextStyle(
-                                        color = Color.Black,
-                                        fontSize = 16.sp
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
+                ShortCard()
                 Spacer(modifier = Modifier.width(16.dp))
             }
         })
@@ -302,11 +290,17 @@ fun HomePageScreen() {
         Box(
             modifier = Modifier
                 .width(400.dp)
-                .height(375.dp)
+                .height(360.dp)
                 .background(Color.White),
         ) {
             LazyColumn(
                 content = {
+                    /* TODO -> 马小乐 王松
+                        马小乐：请你将这下面这个Box抽象成一个Card组件放到外面。因为这个组件还需要提供给Profile和Search两个页面用于显示信息
+                            这代表着Loading状态下的卡片你也要抽象成一个Card_Loading组件。
+                            记得，card是要可以点击进入文章的，请你使用Modifier.clickable属性
+                        王松：当她抽象完之后，你直接在profile调用并展现即可
+                    */
                     items(listData1) {
                         Box(
                             modifier = Modifier
@@ -314,61 +308,7 @@ fun HomePageScreen() {
                                 .height(185.dp)
                                 .background(Color.White)
                         ) {
-                            Row() {
-                                Card(
-                                    modifier = Modifier.size(width = 160.dp, height = 160.dp),
-                                    shape = RoundedCornerShape(15.dp),
-                                ) {
-                                    Box(modifier = Modifier.height(180.dp)) {
-                                        Image(
-                                            painter = painter1,
-                                            contentDescription = des,
-                                            contentScale = ContentScale.Crop,
-                                            modifier = Modifier.size(width = 160.dp, height = 160.dp),
-                                        )
-                                        //拉渐变
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .background(
-                                                    brush = Brush.verticalGradient(
-                                                        colors = listOf(
-                                                            Color.Transparent,
-                                                            Color.Black
-                                                        ),
-                                                        startY = 300f//数据越大黑色越少
-                                                    )
-                                                )
-                                        )
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .padding(16.dp),
-                                            contentAlignment = Alignment.BottomStart
-                                        )
-                                        {
-                                            Text(
-                                                title,
-                                                style = TextStyle(
-                                                    color = Color.White,
-                                                    fontSize = 16.sp
-                                                )
-                                            )
-                                        }
-
-                                    }
-                                }
-                                Spacer(modifier = Modifier.width(10.dp))
-                                Box() {
-                                    Column() {
-                                        Text(text = "小标题")
-                                        Spacer(modifier = Modifier.height(10.dp))
-                                        Text(text = "大标题")
-                                        Spacer(modifier = Modifier.height(10.dp))
-                                        Text(text = "时间")
-                                    }
-                                }
-                            }
+                            LongCard()
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                     }
@@ -382,8 +322,8 @@ fun HomePageScreen() {
                     onClick = { /*TODO*/ },
                     //colors = ButtonColors,
                     modifier = Modifier
-                        .width(90.dp)
-                        .height(90.dp)
+                        .width(80.dp)
+                        .height(80.dp)
                 ) {
                     Icon(
                         Icons.Rounded.Home,
@@ -396,11 +336,12 @@ fun HomePageScreen() {
                 }
                 Spacer(modifier = Modifier.width(100.dp))
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {/*TODO*/},//到个人主页
                     //colors = ButtonColors,
                     modifier = Modifier
-                        .width(90.dp)
-                        .height(90.dp)
+                        .width(80.dp)
+                        .height(80.dp)
+                        //.background(color = MaterialTheme.colorScheme.primary)
                 ) {
                     Icon(
                         Icons.Rounded.Person,
@@ -416,18 +357,6 @@ fun HomePageScreen() {
 }
 
 
-
-
-
-
-
-
-
-@Preview
-@Composable
-fun PreviewHomePageScreen(){
-
-}
 
 @Composable
 fun prev1() {
