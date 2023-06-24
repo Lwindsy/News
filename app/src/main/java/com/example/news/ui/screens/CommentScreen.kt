@@ -9,10 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.w3c.dom.Comment
 
-/* TODO -> 王松
-*   简单根据一个List<Comment> 出现每一个评论，LazyColumn就可以，这个底下需要有和ArticleScreen一样的Bar
-* */
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
