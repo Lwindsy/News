@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
+import com.example.news.data.UserUiState
+import com.example.news.ui.viewmodel.NewsAppViewModel
 
 /* TODO 按照设计图写好此页面(先不用写“记住密码”和“忘记密码”，记住密码需要本地缓存)
 *       不需要管ButtonClicked如何实现的 */
@@ -44,7 +47,9 @@ import com.example.news.R
 fun LoginScreen(
     modifier: Modifier = Modifier,
     onLogInButtonClicked: () -> Unit = {},
-    onSignUpButtonClicked: () -> Unit = {}
+    onSignUpButtonClicked: () -> Unit = {},
+    onSignUpSuccess: () -> Unit = {},
+    viewModel: NewsAppViewModel = NewsAppViewModel(),
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -55,6 +60,12 @@ fun LoginScreen(
 
         var password by remember { mutableStateOf("") }
         val pwd = password ?: ""
+
+        /*  TODO 利用这个来调用用户是否登录成功： -> 王松
+                userUiState.success 为true表示用户登录成功；为false时用户登录失败，且userUiState.failmsg会提供失败信息
+                写一个组件用success这个state来控制点击 登录 按钮之后是否打印错误信息；若成功则调用onSignUpSuccess函数（我会写好）。
+        */
+        val userUiState by viewModel.userUiState.collectAsState()
 
         Box {
             Image(
@@ -87,17 +98,12 @@ fun LoginScreen(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Text(
+                    /* TODO 最好只有注册这两个字能点击，同时请做成像设计那样，颜色不同 -> 王松*/
                     text = stringResource(R.string.login_head_three),
                     color = Color.Black,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .clickable {
-                            /* TODO
-                            * 这里定义去到注册页面的点击事件
-                            *
-                            * */
-                            Log.i("ws", "去注册")
-                        }
+                        .clickable(onClick = onSignUpButtonClicked)
                 )
 
                 Spacer(Modifier.height(30.dp))  // 增加间隔
@@ -159,7 +165,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterHorizontally)
                         .size(width = 280.dp, height = 50.dp),
-                    onClick = { /*TODO*/ },
+                    onClick = onLogInButtonClicked,
                     shape = AbsoluteRoundedCornerShape(//圆角
                         topLeft = 10.dp,
                         topRight = 10.dp,

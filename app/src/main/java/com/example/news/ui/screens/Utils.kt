@@ -1,12 +1,14 @@
 package com.example.news.ui.screens
 
 import androidx.annotation.DrawableRes
+import androidx.cardview.widget.CardView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,12 +17,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 
 
 import androidx.compose.runtime.Composable
@@ -31,10 +36,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -52,19 +59,30 @@ fun InputField(
     onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
     modifier: Modifier = Modifier
 ) {
-    TextField(
+    Card(
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 50.dp,
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 15.dp, end = 15.dp)
             .clip(RoundedCornerShape(20)),
-        singleLine = true,          // 单行
-        maxLines = 1,               // 最多一行
-        value = value,              // 框中的值
-        onValueChange = onValueChange,  // 触发事件
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White
-        )
     )
+    {
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp, end = 15.dp)
+                .clip(RoundedCornerShape(20)),
+            singleLine = true,          // 单行
+            maxLines = 1,               // 最多一行
+            value = value,              // 框中的值
+            onValueChange = onValueChange,  // 触发事件
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent
+            )
+        )
+    }
 }
 
 @Composable
@@ -73,20 +91,35 @@ fun PasswordField(
     onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
     modifier: Modifier = Modifier
 ) {
-    TextField(
+
+    // -> 王松 马小乐
+    // 想要阴影效果就像我这样，组件套个ElevatedCard然后加个elevation属性就行（我在design界面没看出来啥。。。也许运行会不一样？反正你们先写着）。
+    // 记得这个ElevatedCard会被里面的东西盖住，所以如果你不把（textfield）设置成透明的话没法体现阴影（而且这样也更好看）
+    ElevatedCard(
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 50.dp,
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 15.dp, end = 15.dp)
             .clip(RoundedCornerShape(20)),
-        singleLine = true,          // 单行
-        maxLines = 1,               // 最多一行
-        value = value,              // 框中的值
-        onValueChange = onValueChange,colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White
-        ),
-        visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-    )
+    ) {
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp, end = 15.dp)
+                .clip(RoundedCornerShape(20)),
+            singleLine = true,          // 单行
+            maxLines = 1,               // 最多一行
+            value = value,              // 框中的值
+            onValueChange = onValueChange,
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent
+            ),
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        )
+    }
 
 }
 
