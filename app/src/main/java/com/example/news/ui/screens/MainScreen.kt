@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.news.R
 import com.example.news.ui.theme.NewsTheme
 
-/*TODO : 更改按钮，文字样式*/
+
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,

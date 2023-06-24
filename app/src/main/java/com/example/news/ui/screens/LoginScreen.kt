@@ -97,15 +97,23 @@ fun LoginScreen(
                     fontSize = 36.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
-                Text(
-                    /* TODO 最好只有注册这两个字能点击，同时请做成像设计那样，颜色不同 -> 王松*/
-                    text = stringResource(R.string.login_head_three),
-                    color = Color.Black,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .clickable(onClick = onSignUpButtonClicked)
-                )
-
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,//设置水平居中对齐
+                    verticalAlignment =  Alignment.CenterVertically//设置垂直居中对齐
+                ) {
+                    Text(
+                        text = "没有账号？",
+                        color = Color.Black
+                    )
+                    Text(
+                        text = stringResource(R.string.login_head_three),
+                        color = Color.Blue,
+                        modifier = Modifier
+                            .clickable(onClick = onSignUpButtonClicked)
+                    )
+                }
                 Spacer(Modifier.height(30.dp))  // 增加间隔
 
                 Text(
@@ -181,6 +189,13 @@ fun LoginScreen(
             }
         }
     }
+}
+
+@Composable
+fun LoginMessage(
+    modifier: Modifier = Modifier
+) {
+
 }
 
 @Preview
