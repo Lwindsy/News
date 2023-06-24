@@ -17,7 +17,7 @@ fun CommentScreen(
     modifier: Modifier = Modifier
 ){
     Scaffold(
-        bottomBar = { PageBottom() }
+        bottomBar = { HomepageBottomBar() }
     ) {
         LazyColumn(contentPadding = it) {
             items(commentList) {
