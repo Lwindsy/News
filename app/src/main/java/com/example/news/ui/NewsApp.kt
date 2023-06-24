@@ -25,6 +25,9 @@ import com.example.news.ui.screens.MainScreen
 import com.example.news.ui.screens.ProfileScreen
 import com.example.news.ui.screens.SearchScreen
 import com.example.news.ui.screens.SignUpScreen
+import com.example.news.ui.theme.Head_ArticleBar
+import com.example.news.ui.theme.Head_SearchBar
+import com.example.news.ui.theme.Head_SignupBar
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 // for navigation
@@ -37,20 +40,55 @@ enum class AllScreen(@StringRes val title: Int) {
     Search(title = R.string.Search),
     SignUp(title = R.string.Signup)
 }
-
+//HeadBar存在于
 @Composable
-fun NewsAppBar(
+fun NewsAppHeadBar(
     modifier: Modifier = Modifier,
     currentScreen: AllScreen,
 ) {
-    /* TODO 完善这个bar：①针对每一个不同的screen有不同的bar ②样式调好 */
+    /* TODO -> 马小乐
+        完善这个bar：针对每一个不同的screen有不同的headBar。样式请看zzy的设计
+        用when语句判断currentScreen即可
+        比如 mainpage里的搜索框，文章界面上面的返回按钮，都属于这个bar
+    */
+    when (currentScreen.title){
+        R.string.Article -> {
+            Head_ArticleBar()
+        }
+        R.string.Homepage ->{
+           Head_SearchBar()
+        }
+        R.string.Search ->{
+           Head_SearchBar()
+        }
+        R.string.Signup ->{
+           Head_SignupBar()
+        }
+
+    }
+
+}
+
+@Composable
+fun NewsAppBottomBar(
+    modifier: Modifier = Modifier,
+    currentScreen: AllScreen,
+) {
+    /* TODO -> 王松
+        完善这个bar：针对每一个不同的screen（或者state）有不同的BottomBar。样式请看zzy的设计
+        用when语句即可
+        比如你在profile的时候，小人的图标变黑；首页的时候，小人就变白，诸如此类
+    */
+
+
 }
 
 fun composable(route: Any, function: () -> Unit) {
 
 }
 
-/*TODO:①完善各个screen的调用（当然，要先把各个Screen完成），包括：{
+/*TODO -> 孙振林
+   ①完善各个screen的调用（当然，要先把各个Screen完成），包括：{
          1、onClicked等lambda的声明
          2、返回上一screen等函数的编写
    }*/
@@ -73,7 +111,10 @@ fun NewsApp(
     /* TODO 把screen定义好。OnClicked函数应在调用处定义为lambda表达式，内部调用viewmodel的函数 */
     Scaffold(
         topBar = {
-            NewsAppBar(currentScreen = currentScreen)
+            NewsAppHeadBar(currentScreen = currentScreen)
+        },
+        bottomBar = {
+
         }
     ) { innerPadding ->
 
@@ -83,14 +124,21 @@ fun NewsApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = AllScreen.Main.name) {
-                MainScreen(
+                /*MainScreen(
+
+                )*/
+                SearchScreen(
 
                 )
+                //HomePageScreen(
+                    //OnClickExp =navController.navigate(AllScreen.Main.name)
+               // )
             }
             composable(route = AllScreen.Login.name) {
-                LoginScreen(
+                /*LoginScreen(
 
-                )
+                )*/
+
             }
             composable(route = AllScreen.SignUp.name) {
                 SignUpScreen(
@@ -109,7 +157,7 @@ fun NewsApp(
             }
             composable(route = AllScreen.HomePage.name) {
                 HomePageScreen(
-                    viewModel = viewModel
+                    //OnClickExp: () -> Unit,
                 )
             }
             composable(route = AllScreen.Article.name) {
