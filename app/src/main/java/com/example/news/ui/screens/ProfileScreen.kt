@@ -41,7 +41,6 @@ import com.example.news.R
 // 注意！你不应该在Screen部分更改State
 
 /**
- * affirmationList -- 后续改成文章的组合项
  * followAmountPe -- 关注人数
  * likeAmount -- 点赞人数
  * reviewAmount -- 评论人数
@@ -50,7 +49,6 @@ import com.example.news.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    affirmationList: List<Affirmation>,
     followAmountPe: String,
     likeAmount: String,
     reviewAmount: String,
@@ -60,6 +58,10 @@ fun ProfileScreen(
     Scaffold(
         bottomBar = { PageBottom() }
     ) {
+        /*TODO
+        这里是收藏的列表数据，暂时不太明白如何操作
+         */
+        val collectList =
 
         LazyColumn(contentPadding = it) {
 
@@ -194,11 +196,15 @@ fun ProfileScreen(
                 )
             }
 
-            items(affirmationList) { affirmation ->
-                CollectCard(
-                    affirmation = affirmation,
-                    modifier = Modifier.padding(16.dp)
-                )
+            items(collectList) { affirmation ->
+//                CollectCard(
+//                    affirmation = affirmation,
+//                    modifier = Modifier.padding(16.dp)
+//                )
+                /* TODO
+                * 使用封装好的列表
+                * */
+                LongCard()
             }
         }
     }
