@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
 import com.example.news.ui.utils.ArticleScreenBar
+import com.example.news.ui.utils.ArticleScreenTop
 
 
 // 注意！你不应该在Screen部分更改State
@@ -44,7 +45,7 @@ import com.example.news.ui.utils.ArticleScreenBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleScreen(
-
+    modifier: Modifier = Modifier
 ) {
     var inputValue by remember { mutableStateOf("") }
     val input = inputValue ?: ""
@@ -70,32 +71,3 @@ fun ArticleScreen(
     }
 
 }
-
-@Composable
-fun ArticleScreenTop(
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .background(color = Color.White),
-        horizontalArrangement = Arrangement.Center,//设置水平居中对齐
-        verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.back_icon),
-            contentDescription = "",
-            modifier = Modifier
-                .clickable {  }
-        )
-        Spacer(modifier = Modifier.width(260.dp))
-        Image(
-            painter = painterResource(id = R.drawable.share_icon),
-            contentDescription = "",
-            modifier = Modifier
-                .clickable {  }
-        )
-    }
-}
-

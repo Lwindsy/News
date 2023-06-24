@@ -24,6 +24,39 @@ import androidx.compose.ui.unit.sp
 import com.example.news.R
 
 
+/*************** Top Bar ****************/
+
+@Composable
+fun ArticleScreenTop(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .background(color = Color.White),
+        horizontalArrangement = Arrangement.Center,//设置水平居中对齐
+        verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.back_icon),
+            contentDescription = "",
+            modifier = Modifier
+                .clickable {  }
+        )
+        Spacer(modifier = Modifier.width(260.dp))
+        Image(
+            painter = painterResource(id = R.drawable.share_icon),
+            contentDescription = "",
+            modifier = Modifier
+                .clickable {  }
+        )
+    }
+}
+
+/*************** Bottom Bar ****************/
+
+
 @Composable
 fun ArticleScreenBar(
     /* 状态提升 */
@@ -39,7 +72,6 @@ fun ArticleScreenBar(
         horizontalArrangement = Arrangement.Center,//设置水平居中对齐
         verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
     ) {
-//        Icon(Icons.Filled.Search, "搜索")
         BasicTextField(
             value = value,
             onValueChange = onValueChange,

@@ -15,11 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.news.R
 import com.example.news.ui.screens.ArticleScreen
 import com.example.news.ui.screens.HomePageScreen
-import com.example.news.ui.screens.HomepageBottomBar
-import com.example.news.ui.screens.ProfileBottomBar
 import com.example.news.ui.screens.ProfileScreen
 import com.example.news.ui.screens.SearchScreen
 import com.example.news.ui.screens.SignUpScreen
+import com.example.news.ui.utils.HomepageBottomBar
+import com.example.news.ui.utils.ProfileBottomBar
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 // for navigation
