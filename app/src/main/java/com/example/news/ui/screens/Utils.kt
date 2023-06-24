@@ -1,10 +1,12 @@
 package com.example.news.ui.screens
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -191,4 +193,44 @@ fun SearchField(
             }
         }
     )
+}
+
+
+@Composable
+fun PageBottom(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .background(color = Color.White),
+        horizontalArrangement = Arrangement.Center,//设置水平居中对齐
+        verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.home_icon_light),
+            contentDescription = "",
+            modifier = Modifier
+                .clickable {
+                    /* TODO
+                    * 点击触发首页
+                    * */
+                    Log.i("ws", "去首页")
+                }
+        )
+
+        Spacer(modifier = Modifier.width(170.dp))
+        Image(
+            painter = painterResource(id = R.drawable.people_icon_light),
+            contentDescription = "",
+            modifier = Modifier
+                .clickable {
+                    /* TODO
+                    * 点击触发首页
+                    * */
+                    Log.i("ws", "个人主页")
+                }
+        )
+    }
 }

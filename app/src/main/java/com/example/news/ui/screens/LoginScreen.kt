@@ -1,6 +1,7 @@
 package com.example.news.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,10 +62,6 @@ fun LoginScreen(
         var password by remember { mutableStateOf("") }
         val pwd = password ?: ""
 
-        /*  TODO 利用这个来调用用户是否登录成功： -> 王松
-                userUiState.success 为true表示用户登录成功；为false时用户登录失败，且userUiState.failmsg会提供失败信息
-                写一个组件用success这个state来控制点击 登录 按钮之后是否打印错误信息；若成功则调用onSignUpSuccess函数（我会写好）。
-        */
         val userUiState by viewModel.userUiState.collectAsState()
 
         Box {
@@ -115,6 +112,26 @@ fun LoginScreen(
                     )
                 }
                 Spacer(Modifier.height(30.dp))  // 增加间隔
+
+                if(userUiState.success) {
+                    /* TODO
+                    * 调用 onSignUpSuccess
+                    * */
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .height(30.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+//                            text = "用户名或密码错误！请检查后重新输入",
+                            text = userUiState.failmsg,
+                            color = Color.Red,
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                        )
+                    }
+                }
 
                 Text(
                     text = stringResource(R.string.login_username),
@@ -193,9 +210,13 @@ fun LoginScreen(
 
 @Composable
 fun LoginMessage(
+    resultMessage: String,
     modifier: Modifier = Modifier
 ) {
-
+    Column {
+        Text(text = "用户名或密码错误！请检查后重新输入")
+        Text(text = resultMessage)
+    }
 }
 
 @Preview
