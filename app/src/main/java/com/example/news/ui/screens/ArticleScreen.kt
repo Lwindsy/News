@@ -36,18 +36,14 @@ import androidx.compose.ui.unit.sp
 import com.example.news.R
 import com.example.news.ui.utils.ArticleScreenBar
 import com.example.news.ui.utils.ArticleScreenTop
+import com.example.news.ui.viewmodel.NewsAppViewModel
 
 
 // 注意！你不应该在Screen部分更改State
-
-/* TODO -> 王松
-    ArticleUiState直接用于此screen，利用其来显示文章
-    注意这里的底部Bar应该做到：点击评论按钮就把CommentScreen展现出来。至于如何动画出现，请用AnimatedVisibility
-    文档：https://developer.android.google.cn/jetpack/compose/animation?hl=zh-cn#animatedvisibility
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleScreen(
+    viewModel: NewsAppViewModel,
     modifier: Modifier = Modifier
 ) {
     var inputValue by remember { mutableStateOf("") }

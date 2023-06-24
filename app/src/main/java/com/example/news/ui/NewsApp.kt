@@ -147,7 +147,7 @@ fun NewsApp(
             }
             composable(route = AllScreen.Article.name) {
                 ArticleScreen(
-
+                    viewModel = viewModel
                 )
             }
         }
