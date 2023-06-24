@@ -39,6 +39,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
+import com.example.news.ui.utils.SearchField
 import com.example.news.ui.theme.Article_loading_card
 import com.example.news.ui.theme.Head_SearchBar
 import com.example.news.ui.theme.Loading_Card

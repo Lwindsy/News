@@ -35,7 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
-import com.example.news.data.UserUiState
+import com.example.news.ui.utils.InputField
+import com.example.news.ui.utils.PasswordField
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 /* TODO 按照设计图写好此页面(先不用写“记住密码”和“忘记密码”，记住密码需要本地缓存)
@@ -61,10 +62,6 @@ fun LoginScreen(
         var password by remember { mutableStateOf("") }
         val pwd = password ?: ""
 
-        /*  TODO 利用这个来调用用户是否登录成功： -> 王松
-                userUiState.success 为true表示用户登录成功；为false时用户登录失败，且userUiState.failmsg会提供失败信息
-                写一个组件用success这个state来控制点击 登录 按钮之后是否打印错误信息；若成功则调用onSignUpSuccess函数（我会写好）。
-        */
         val userUiState by viewModel.userUiState.collectAsState()
 
         Box {
@@ -97,16 +94,44 @@ fun LoginScreen(
                     fontSize = 36.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
-                Text(
-                    /* TODO 最好只有注册这两个字能点击，同时请做成像设计那样，颜色不同 -> 王松*/
-                    text = stringResource(R.string.login_head_three),
-                    color = Color.Black,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .clickable(onClick = onSignUpButtonClicked)
-                )
-
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,//设置水平居中对齐
+                    verticalAlignment =  Alignment.CenterVertically//设置垂直居中对齐
+                ) {
+                    Text(
+                        text = "没有账号？",
+                        color = Color.Black
+                    )
+                    Text(
+                        text = stringResource(R.string.login_head_three),
+                        color = Color.Blue,
+                        modifier = Modifier
+                            .clickable(onClick = onSignUpButtonClicked)
+                    )
+                }
                 Spacer(Modifier.height(30.dp))  // 增加间隔
+
+                if(userUiState.success) {
+                    /* TODO
+                    * 调用 onSignUpSuccess
+                    * */
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .height(30.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+//                            text = "用户名或密码错误！请检查后重新输入",
+                            text = userUiState.failmsg,
+                            color = Color.Red,
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                        )
+                    }
+                }
 
                 Text(
                     text = stringResource(R.string.login_username),
@@ -180,6 +205,17 @@ fun LoginScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun LoginMessage(
+    resultMessage: String,
+    modifier: Modifier = Modifier
+) {
+    Column {
+        Text(text = "用户名或密码错误！请检查后重新输入")
+        Text(text = resultMessage)
     }
 }
 

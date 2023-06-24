@@ -1,17 +1,12 @@
 package com.example.news.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,14 +15,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.news.R
 import com.example.news.ui.screens.ArticleScreen
 import com.example.news.ui.screens.HomePageScreen
-import com.example.news.ui.screens.LoginScreen
-import com.example.news.ui.screens.MainScreen
 import com.example.news.ui.screens.ProfileScreen
 import com.example.news.ui.screens.SearchScreen
 import com.example.news.ui.screens.SignUpScreen
 import com.example.news.ui.theme.Head_ArticleBar
 import com.example.news.ui.theme.Head_SearchBar
 import com.example.news.ui.theme.Head_SignupBar
+import com.example.news.ui.utils.HomepageBottomBar
+import com.example.news.ui.utils.ProfileBottomBar
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 // for navigation
@@ -74,13 +69,29 @@ fun NewsAppBottomBar(
     modifier: Modifier = Modifier,
     currentScreen: AllScreen,
 ) {
-    /* TODO -> 王松
-        完善这个bar：针对每一个不同的screen（或者state）有不同的BottomBar。样式请看zzy的设计
-        用when语句即可
-        比如你在profile的时候，小人的图标变黑；首页的时候，小人就变白，诸如此类
-    */
-
-
+    when(currentScreen.title) {
+        R.string.Article -> {
+//            ArticleScreenBar(value = value, onValueChange = onValueChange)
+        }
+        R.string.Homepage -> {
+            HomepageBottomBar()
+        }
+        R.string.Login -> {
+            // 不需要
+        }
+        R.string.Main -> {
+            // 不需要
+        }
+        R.string.Profile -> {
+            ProfileBottomBar()
+        }
+        R.string.Search -> {
+            // 不需要
+        }
+        R.string.Signup -> {
+            // 不需要
+        }
+    }
 }
 
 fun composable(route: Any, function: () -> Unit) {
@@ -152,7 +163,7 @@ fun NewsApp(
             }
             composable(route = AllScreen.Profile.name) {
                 ProfileScreen(
-
+                    viewModel = viewModel
                 )
             }
             composable(route = AllScreen.HomePage.name) {
@@ -162,7 +173,7 @@ fun NewsApp(
             }
             composable(route = AllScreen.Article.name) {
                 ArticleScreen(
-
+                    viewModel = viewModel
                 )
             }
         }
