@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -160,14 +161,14 @@ fun ProfileScreen(
                     modifier = Modifier.padding(start = 16.dp)
                 )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp),
+                LazyRow(
+                    contentPadding = it,
+                    modifier = modifier
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,//设置水平居中对齐
                     verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
                 ) {
-                    repeat(5) {
+                    items(10) {
                         Image(
                             modifier = modifier
                                 .size(dimensionResource(R.dimen.image_size))
@@ -179,7 +180,6 @@ fun ProfileScreen(
                         )
                     }
                 }
-
 
                 MyDivider() // 分割线
                 Spacer(modifier = Modifier.height(30.dp))
