@@ -27,6 +27,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 
 
@@ -233,4 +234,16 @@ fun PageBottom(
                 }
         )
     }
+}
+
+/**
+ * 分割线
+ */
+@Composable
+fun MyDivider() {
+    Divider(
+        thickness = 0.5.dp,     //设置分割线的高度
+        color = Color.Gray,     //设置分割线的颜色
+        modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+    )
 }

@@ -234,12 +234,3 @@ fun CollectCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
         }
     }
 }
-
-@Composable
-fun MyDivider() {
-    Divider(
-        thickness = 0.5.dp,     //设置分割线的高度
-        color = Color.Gray,     //设置分割线的颜色
-        modifier = Modifier.padding(start = 20.dp, end = 20.dp)
-    )
-}
