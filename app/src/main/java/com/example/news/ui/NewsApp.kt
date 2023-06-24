@@ -25,6 +25,9 @@ import com.example.news.ui.screens.MainScreen
 import com.example.news.ui.screens.ProfileScreen
 import com.example.news.ui.screens.SearchScreen
 import com.example.news.ui.screens.SignUpScreen
+import com.example.news.ui.theme.Head_ArticleBar
+import com.example.news.ui.theme.Head_SearchBar
+import com.example.news.ui.theme.Head_SignupBar
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 // for navigation
@@ -37,7 +40,7 @@ enum class AllScreen(@StringRes val title: Int) {
     Search(title = R.string.Search),
     SignUp(title = R.string.Signup)
 }
-
+//HeadBar存在于
 @Composable
 fun NewsAppHeadBar(
     modifier: Modifier = Modifier,
@@ -48,6 +51,22 @@ fun NewsAppHeadBar(
         用when语句判断currentScreen即可
         比如 mainpage里的搜索框，文章界面上面的返回按钮，都属于这个bar
     */
+    when (currentScreen.title){
+        R.string.Article -> {
+            Head_ArticleBar()
+        }
+        R.string.Homepage ->{
+           Head_SearchBar()
+        }
+        R.string.Search ->{
+           Head_SearchBar()
+        }
+        R.string.Signup ->{
+           Head_SignupBar()
+        }
+
+    }
+
 }
 
 @Composable
@@ -60,6 +79,8 @@ fun NewsAppBottomBar(
         用when语句即可
         比如你在profile的时候，小人的图标变黑；首页的时候，小人就变白，诸如此类
     */
+
+
 }
 
 fun composable(route: Any, function: () -> Unit) {
@@ -106,11 +127,18 @@ fun NewsApp(
                 /*MainScreen(
 
                 )*/
+                SearchScreen(
+
+                )
+                //HomePageScreen(
+                    //OnClickExp =navController.navigate(AllScreen.Main.name)
+               // )
             }
             composable(route = AllScreen.Login.name) {
                 /*LoginScreen(
 
                 )*/
+
             }
             composable(route = AllScreen.SignUp.name) {
                 SignUpScreen(
@@ -129,7 +157,7 @@ fun NewsApp(
             }
             composable(route = AllScreen.HomePage.name) {
                 HomePageScreen(
-
+                    //OnClickExp: () -> Unit,
                 )
             }
             composable(route = AllScreen.Article.name) {

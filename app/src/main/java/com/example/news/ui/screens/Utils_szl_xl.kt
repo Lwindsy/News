@@ -17,17 +17,27 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.news.R
 import com.example.news.data.BottomArticleTableUiState
+import com.example.news.data.HeadArticleTableUiState
+import com.example.news.data.SearchTableUiState
+import com.example.news.ui.theme.Head_SearchBar
+import com.example.news.ui.theme.Loading_Card
+import com.example.news.ui.theme.LongCard
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 /*
@@ -114,7 +124,37 @@ fun HeadArticleCard_Loading(
         }
     }
 }
+//homepage不管咋样都正常显示吧.不需要
+@Composable
+fun homepage(
+    viewModel: NewsAppViewModel,
+    modifier: Modifier = Modifier
+){
 
+}
+//
+@Composable
+fun searchpage(
+    viewModel: NewsAppViewModel,
+    modifier: Modifier = Modifier
+){
+    Head_SearchBar()
+    when (viewModel.searchTableUiState) {
+        is SearchTableUiState.Loading -> {
+            Loading_Card()
+        /* 你写好的Loading组件，比如你写一个HeadArticleTable，里面是一个LazyRow展现上面的HeadArticleCard_Loading */
+        }
+        is SearchTableUiState.Success -> {
+            /* 你写好的Success组件 */
+            LongCard()
+        }
+        is SearchTableUiState.Error -> {
+            /* 忽略 */
+        }
+
+        else -> {}
+    }
+}
 @Composable
 fun xxxScreen(
     viewModel: NewsAppViewModel,
