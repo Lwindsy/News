@@ -34,28 +34,28 @@ fun ArticleScreenTop(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
-            .background(color = Color.White),
-        horizontalArrangement = Arrangement.Center,//设置水平居中对齐
-        verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
+            .background(color = Color.White)
+            .padding(start = 15.dp, end = 15.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,//设置水平居中对齐
+        verticalAlignment = Alignment.CenterVertically,//设置垂直居中对齐
     ) {
         Image(
             painter = painterResource(id = R.drawable.back_icon),
             contentDescription = "",
             modifier = Modifier
-                .clickable {  }
+                .clickable { }
         )
         Spacer(modifier = Modifier.width(260.dp))
         Image(
             painter = painterResource(id = R.drawable.share_icon),
             contentDescription = "",
             modifier = Modifier
-                .clickable {  }
+                .clickable { }
         )
     }
 }
 
 /*************** Bottom Bar ****************/
-
 
 @Composable
 fun ArticleScreenBar(
@@ -72,6 +72,7 @@ fun ArticleScreenBar(
         horizontalArrangement = Arrangement.Center,//设置水平居中对齐
         verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
     ) {
+//        Icon(Icons.Filled.Search, "搜索")
         BasicTextField(
             value = value,
             onValueChange = onValueChange,
@@ -89,7 +90,7 @@ fun ArticleScreenBar(
             painter = painterResource(id = R.drawable.comment),
             contentDescription = "",
             modifier = Modifier
-                .clickable {  }
+                .clickable { }
         )
         Spacer(modifier = Modifier.width(8.dp))
         Image(

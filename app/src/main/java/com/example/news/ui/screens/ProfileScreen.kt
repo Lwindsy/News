@@ -36,6 +36,7 @@ import com.example.news.data.BookMarkedTableUiState
 import com.example.news.data.BottomArticleTableUiState
 import com.example.news.ui.AllScreen
 import com.example.news.ui.NewsAppBottomBar
+import com.example.news.ui.utils.HeadArticleCardLoading
 import com.example.news.ui.utils.LongCard
 import com.example.news.ui.utils.MyDivider
 import com.example.news.ui.utils.ProfileCollectedLoadingCard
@@ -203,7 +204,7 @@ fun ProfileScreen(
                 is BookMarkedTableUiState.Loading -> {
                     /* 你写好的Loading组件，比如你写一个HeadArticleTable，里面是一个LazyRow展现上面的HeadArticleCard_Loading */
                     items(10) {
-                        ProfileCollectedLoadingCard()
+                        HeadArticleCardLoading()
                     }
                 }
                 is BookMarkedTableUiState.Success -> {
