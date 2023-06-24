@@ -1,7 +1,6 @@
 package com.example.news.ui.screens
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
-import com.example.news.data.UserUiState
+import com.example.news.ui.utils.InputField
+import com.example.news.ui.utils.PasswordField
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 /* TODO 按照设计图写好此页面(先不用写“记住密码”和“忘记密码”，记住密码需要本地缓存)

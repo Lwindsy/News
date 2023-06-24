@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.news.R
+import com.example.news.ui.utils.SearchField
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 // 注意！你不应该在Screen部分更改State
@@ -56,9 +57,6 @@ fun SearchScreen(
                 hint = "搜索热门新闻",
                 startIcon = R.drawable.searchicon,
                 iconSpacing = 16.dp,
-//                textStyle = ,
-                // keyboardType -> 半个 inputType; 这里是 Phone
-//                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             )
         }
     }

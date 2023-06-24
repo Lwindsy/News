@@ -32,8 +32,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.affirmations.model.Affirmation
 import com.example.news.R
+import com.example.news.data.BookMarkedTableUiState
+import com.example.news.data.BottomArticleTableUiState
 import com.example.news.ui.AllScreen
 import com.example.news.ui.NewsAppBottomBar
+import com.example.news.ui.utils.LongCard
+import com.example.news.ui.utils.MyDivider
+import com.example.news.ui.utils.ProfileCollectedLoadingCard
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
 /* TODO UserUiState用于此screen */
@@ -66,8 +71,6 @@ fun ProfileScreen(
         val collectList =
 
         LazyColumn(contentPadding = it) {
-
-            /* 两个按钮 */
             item { Spacer(modifier = Modifier.height(30.dp)) }
 
             /* 人物头像 */
@@ -188,7 +191,6 @@ fun ProfileScreen(
 
             /* 收藏夹 */
             item {
-
                 androidx.compose.material3.Text(
                     text = stringResource(R.string.profile_favorites),
                     fontSize = 18.sp,
@@ -197,41 +199,23 @@ fun ProfileScreen(
                 )
             }
 
-            items(collectList) { affirmation ->
-//                CollectCard(
-//                    affirmation = affirmation,
-//                    modifier = Modifier.padding(16.dp)
-//                )
-                /* TODO
-                * 使用封装好的列表
-                * */
-                LongCard()
+            when (viewModel.bookMarkedTableUiState) {
+                is BookMarkedTableUiState.Loading -> {
+                    /* 你写好的Loading组件，比如你写一个HeadArticleTable，里面是一个LazyRow展现上面的HeadArticleCard_Loading */
+                    items(10) {
+                        ProfileCollectedLoadingCard()
+                    }
+                }
+                is BookMarkedTableUiState.Success -> {
+                    /* 你写好的Success组件 */
+                    items(10) {
+                        LongCard()
+                    }
+                }
+                is BookMarkedTableUiState.Error -> {
+                    /* 忽略 */
+                }
             }
-        }
-    }
-}
-
-/**
- * 一个收藏项，测试使用
- */
-@Composable
-fun CollectCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
-        Column {
-            Image(
-                painter = painterResource(affirmation.imageResourceId),
-                contentDescription = stringResource(id = affirmation.stringResourceId),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(194.dp),
-                contentScale = ContentScale.Crop
-            )
-            androidx.compose.material3.Text(
-//                text = LocalContext.current.getString(affirmation.stringResourceId),
-                text = LocalContext.current.getString(affirmation.stringResourceId),
-                modifier = Modifier.padding(16.dp),
-                style = MaterialTheme.typography.headlineSmall
-            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.news.ui.screens
+package com.example.news.ui.utils
 
 import android.util.Log
 import androidx.compose.foundation.Image
