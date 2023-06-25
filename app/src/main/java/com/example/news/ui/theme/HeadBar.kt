@@ -18,10 +18,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.news.R
-import com.example.news.ui.screens.SearchField
+import com.example.news.ui.utils.SearchField
 
 @Composable
-fun Head_SearchBar(){
+fun Head_SearchBar(
+    onSearchClick:(String) -> Unit = {}
+){
     var inputValue by remember { mutableStateOf("") }
     val input = inputValue ?: ""
     SearchField(
@@ -32,7 +34,8 @@ fun Head_SearchBar(){
             .padding(start = 50.dp, top = 20.dp, end = 50.dp)
             .height(40.dp)
             .background(Color.White, shape = MaterialTheme.shapes.medium)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .clickable { onSearchClick(input) },//点击搜索跳转SearchScreen()
         hint = "搜索热门新闻",
         startIcon = R.drawable.searchicon,
         iconSpacing = 16.dp,
@@ -57,17 +60,16 @@ fun Head_SignupBar(){
     )
 }
 @Composable
-fun Head_ArticleBar(){
+fun Head_ArticleBar(
+    onReturnClicked:() -> Unit = {}
+){
     Image(
         painterResource(R.drawable.back_icon),
         contentDescription = "返回图标",
         modifier = Modifier
             .padding(start = 15.dp)
             .clickable{
-                /* TODO
-                * 点击返回
-                * */
-                Log.i("ws", "back")
+                onReturnClicked()
             }
     )
 }

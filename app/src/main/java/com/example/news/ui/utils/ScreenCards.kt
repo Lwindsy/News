@@ -29,69 +29,6 @@ import androidx.compose.ui.unit.sp
 import com.example.affirmations.model.Affirmation
 import com.example.news.R
 
-@Composable
-fun LongCard() {
-    val painter = painterResource(id = R.drawable.z)
-    Spacer(modifier = Modifier.width(5.dp))
-    Card(
-        modifier = Modifier.size(width = 390.dp, height = 160.dp),
-        shape = RoundedCornerShape(15.dp),
-        elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 50.dp,
-        )
-    ) {
-        Box(modifier = Modifier.height(160.dp)) {
-            Row() {
-                Box(
-                    modifier = Modifier.size(width = 200.dp, height = 160.dp),
-                    contentAlignment = Alignment.BottomStart
-                ) {
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(width = 160.dp, height = 160.dp),
-                    )
-                }
-                Spacer(modifier = Modifier.width(5.dp))
-                Box(
-                    modifier = Modifier.size(width = 185.dp, height = 160.dp),
-                    contentAlignment = Alignment.TopStart
-                )
-                {
-                    Column() {
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(
-                            "文章分类",
-                            style = TextStyle(
-                                color = Color.White,
-                                fontSize = 16.sp
-                            )
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Text(
-                            "文章题目",
-                            style = TextStyle(
-                                color = Color.White,
-                                fontSize = 30.sp
-                            )
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Text(
-                            "文章作者+时间",
-                            style = TextStyle(
-                                color = Color.White,
-                                fontSize = 16.sp
-                            )
-                        )
-                    }
-                }
-
-            }
-        }
-    }
-}
-
 /**
  * 一个收藏项，测试使用
  */

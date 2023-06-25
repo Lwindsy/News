@@ -39,6 +39,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
+import com.example.news.data.SearchTableUiState
 import com.example.news.ui.utils.SearchField
 import com.example.news.ui.theme.Article_loading_card
 import com.example.news.ui.theme.Head_SearchBar
@@ -61,9 +62,7 @@ fun SearchScreen(
     var inputValue by remember { mutableStateOf("") }
     val input = inputValue ?: ""
 
-    val searchTableUiState = viewModel.searchTableUiState
-    //listData应该是根据输入的string查询相关的新闻,跟上面这个searchTableUiState有关吧
-    val listData = (0..5).toList()
+    val searchTableState = viewModel.searchTableUiState
 
     Box {
         Image(
@@ -80,8 +79,7 @@ fun SearchScreen(
                     .padding(start = 50.dp, top = 20.dp, end = 50.dp)
                     .height(40.dp)
                     .background(
-                        Color.White,
-                        shape = androidx.compose.material.MaterialTheme.shapes.medium
+                        Color.White, shape = androidx.compose.material.MaterialTheme.shapes.medium
                     )
                     .padding(horizontal = 16.dp),
                 hint = "搜索热门新闻",
@@ -90,15 +88,25 @@ fun SearchScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             //添加根据输入的信息显示内容 没有搜到就一直是Loading_card
-            LazyColumn(content = {
-                items(listData){
-                    Spacer(modifier = Modifier.height(20.dp))
-                    //Loading_Card()
-                    //Article_loading_card()
-                    LongCard()
+
+            when (searchTableState) {
+                is SearchTableUiState.Success -> {
+                    LazyColumn(content = {
+                        items(searchTableState.searchTable) {
+                            Spacer(modifier = Modifier.height(20.dp))
+                            LongCard(it)
+                        }
+                    })
+                }
+
+                is SearchTableUiState.Loading -> {
+                    /* TODO -> szl 设置空信息*/
+                }
+
+                else -> {
 
                 }
-            })
+            }
         }
 
     }

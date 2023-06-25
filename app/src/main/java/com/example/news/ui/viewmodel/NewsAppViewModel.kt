@@ -1,13 +1,20 @@
 package com.example.news.ui.viewmodel
 
+import android.content.ContentValues
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.network.HttpException
-import com.example.news.data.ArticleItem
+import com.example.news.data.item.ArticleItem
 import com.example.news.data.ArticleUiState
 import com.example.news.data.BookMarkedTableUiState
 import com.example.news.data.BottomArticleTableUiState
@@ -16,14 +23,23 @@ import com.example.news.data.LogInInfoUiState
 import com.example.news.data.SearchTableUiState
 import com.example.news.data.SignUpInfoUiState
 import com.example.news.data.UserUiState
-import com.example.news.ui.screens.ArticleScreen
+import com.example.news.data.item.UserItem
+import com.example.news.network.NewsApi
+import com.example.news.network.NewsApiService
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.SocketTimeoutException
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
 
 /* TODO :
     ①定义好各个更新State的函数，如updateArticle用于查询数据并更新ArticleUiState
@@ -35,25 +51,30 @@ const val BOTTOM_TABLE = 1
 const val BOOKMARKED_TABLE = 2
 const val SEARCH_TABLE = 3
 
+const val DELAY_TIME = 1300L
+
 class NewsAppViewModel : ViewModel() {
 
 
     // 八个uiState
     // 默认为Loading状态
-    var articleUiState : ArticleUiState by mutableStateOf(ArticleUiState.Loading)
+
+    var searchTableUiState: SearchTableUiState by mutableStateOf(SearchTableUiState.Loading)
         private set
 
-    var searchTableUiState : SearchTableUiState by mutableStateOf(SearchTableUiState.Loading)
+    var headArticleTableUiState: HeadArticleTableUiState by mutableStateOf(HeadArticleTableUiState.Loading)
         private set
 
-    var headArticleTableUiState : HeadArticleTableUiState by mutableStateOf(HeadArticleTableUiState.Loading)
+    var bottomArticleTableUiState: BottomArticleTableUiState by mutableStateOf(
+        BottomArticleTableUiState.Loading
+    )
         private set
 
-    var bottomArticleTableUiState : BottomArticleTableUiState by mutableStateOf(BottomArticleTableUiState.Loading)
+    var bookMarkedTableUiState: BookMarkedTableUiState by mutableStateOf(BookMarkedTableUiState.Loading)
         private set
 
-    var bookMarkedTableUiState : BookMarkedTableUiState by mutableStateOf(BookMarkedTableUiState.Loading)
-        private set
+    private val _articleUiState = MutableStateFlow(ArticleUiState())
+    val articleUiState: StateFlow<ArticleUiState> = _articleUiState.asStateFlow()
 
     private val _userUiState = MutableStateFlow(UserUiState())
     val userUiState: StateFlow<UserUiState> = _userUiState.asStateFlow()
@@ -75,182 +96,211 @@ class NewsAppViewModel : ViewModel() {
 
     // 用于提交注册信息
     fun commitSignUpInfo(
-
+        userItem: UserItem
     ) {
-
+        viewModelScope.launch{
+            _signUpInfoUiState.update { currentState ->
+                currentState.copy(
+                    signUpResultUiState = NewsApi.retrofitService.getSignUpResult(userItem).result == 1
+                )
+            }
+        }
     }
 
     // 用于提交用户登录信息
     fun cmpUserInfo(
-
+        userItem: UserItem
     ) {
-
+        viewModelScope.launch{
+            _userUiState.update { currentState ->
+                currentState.copy(
+                    success = NewsApi.retrofitService.getLoginResult(userItem.userId.toLong(),userItem.password).result.toLong(),
+                    userId = userItem.userId,
+                    userName = userItem.userName
+                )
+            }
+        }
     }
 
     // 获取文章信息（并更新State）
     fun getArticle(
-
+        articleId : Long
     ) {
+        viewModelScope.launch {
+            coroutineScope {
+                launch {
+                    _articleUiState.update { currentState ->
+                        currentState.copy(
+                            articleItem = NewsApi.retrofitService.getArticleById(articleId),
+                            likeNumber = NewsApi.retrofitService.getArticleLikeNum(articleId).result.toLong(),
+                            commentList = NewsApi.retrofitService.getCommentListByArticleId(articleId)
+                        )
 
+                    }
+                    Log.d(ContentValues.TAG, "zzz")
+                }
+            }
+        }
     }
 
     // 获取用户信息（并更新UserUiState）
     fun getUserInfo(
-
+        userId: Long,
     ) {
         viewModelScope.launch {
-
+            coroutineScope {
+                // id
+                launch {
+                    _userUiState.update { currentState ->
+                        currentState.copy(
+                            userId = NewsApi.retrofitService.getUserById(userId).userId
+                        )
+                    }
+                }
+                Log.d("z","id")
+                // name
+                launch {
+                    _userUiState.update { currentState ->
+                        currentState.copy(
+                            userName = NewsApi.retrofitService.getUserById(userId).userName
+                        )
+                    }
+                }
+                Log.d("z","name")
+                // bookmarkList
+                launch {
+                    _userUiState.update { currentState ->
+                        currentState.copy(
+                            bookmarkList = NewsApi.retrofitService.getBookmarkListById(userId)
+                        )
+                    }
+                }
+                Log.d("z","bookmarkList")
+                // likeNum
+                launch {
+                    _userUiState.update { currentState ->
+                        currentState.copy(
+                            likeNum = NewsApi.retrofitService.getUserLikeNum(userId).result.toString()
+                        )
+                    }
+                }
+                Log.d("z","likeNum")
+                // commentNum and List
+                launch {
+                    _userUiState.update { currentState ->
+                        currentState.copy(
+                            commentList = NewsApi.retrofitService.getCommentListByUserId(userId),
+                            commentNum = NewsApi.retrofitService.getCommentListByUserId(userId).size.toString()
+                        )
+                    }
+                }
+                Log.d("z","commentNum")
+                // followNum and List
+                launch {
+                    _userUiState.update { currentState ->
+                        currentState.copy(
+                            followingList = NewsApi.retrofitService.getFollowingListById(userId),
+                            followNum = NewsApi.retrofitService.getFollowingListById(userId).size.toString()
+                        )
+                    }
+                }
+                Log.d("z","followNum")
+            }
         }
     }
 
-    // 查询文章列表,此处是给首页用的（需要根据不同的类型来查询新闻）
-    fun getHomeArticleTable(
+    // 查询文章列表
+    fun getArticleTable(
         tableType: Int = HEAD_TABLE,
-        start: Int = 0,
-        num: Int,
-        articleType: Int = -1
+        articleType: String = "",
+        userId : Long = -1,
+        searchText : String = ""
     ) {
-        // 先行改变
-        viewModelScope.launch{
+        viewModelScope.launch {
             when (tableType) {
                 HEAD_TABLE -> {
-                    // on loading
+                    // 先Loading
                     headArticleTableUiState = HeadArticleTableUiState.Loading
-                    delay(2000)
-                    headArticleTableUiState = try {
-                        HeadArticleTableUiState.Success(
-                            headArticleTable = getArticleTable(
-                                num = num,
-                                tableType = tableType,
-                                articleType = articleType,
-                                start = start
-                            )
-                        )
-                    }
-                    catch (e: IOException) {
-                        Log.e("IOException", e.toString())
-                        HeadArticleTableUiState.Error
-                    } catch (e: HttpException) {
-                        Log.e("HttpException", e.toString())
-                    HeadArticleTableUiState.Error
-                    } catch (e: SocketTimeoutException) {
-                        Log.e("SocketTimeoutException", e.toString())
-                    HeadArticleTableUiState.Error
-                    } catch (e: Exception) {
-                        Log.e("Exception", e.toString())
-                    HeadArticleTableUiState.Error
-                    }
-                }
+                    delay(DELAY_TIME)
+                    headArticleTableUiState = HeadArticleTableUiState.Success(
+                        NewsApi.retrofitService.getArticleByType(articleType)
 
-                SEARCH_TABLE -> {
-                    // on loading
-                    searchTableUiState = SearchTableUiState.Loading
-                    delay(2000)
-                    searchTableUiState = try {
-                        SearchTableUiState.Success(
-                            searchTable = getArticleTable(
-                                num = num,
-                                tableType = tableType,
-                                articleType = articleType,
-                                start = start
-                            )
-                        )
-                    }
-                    catch (e: IOException) {
-                        Log.e("IOException", e.toString())
-                        SearchTableUiState.Error
-                    } catch (e: HttpException) {
-                        Log.e("HttpException", e.toString())
-                        SearchTableUiState.Error
-                    } catch (e: SocketTimeoutException) {
-                        Log.e("SocketTimeoutException", e.toString())
-                        SearchTableUiState.Error
-                    } catch (e: Exception) {
-                        Log.e("Exception", e.toString())
-                        SearchTableUiState.Error
-                    }
-                }
-
-                BOOKMARKED_TABLE -> {
-                    // on loading
-                    bookMarkedTableUiState = BookMarkedTableUiState.Loading
-                    delay(2000)
-                    bookMarkedTableUiState = try {
-                        BookMarkedTableUiState.Success(
-                            bookMarkedTable = getArticleTable(
-                                num = num,
-                                tableType = tableType,
-                                articleType = articleType,
-                                start = start
-                            )
-                        )
-                    }
-                    catch (e: IOException) {
-                        Log.e("IOException", e.toString())
-                        BookMarkedTableUiState.Error
-                    } catch (e: HttpException) {
-                        Log.e("HttpException", e.toString())
-                        BookMarkedTableUiState.Error
-                    } catch (e: SocketTimeoutException) {
-                        Log.e("SocketTimeoutException", e.toString())
-                        BookMarkedTableUiState.Error
-                    } catch (e: Exception) {
-                        Log.e("Exception", e.toString())
-                        BookMarkedTableUiState.Error
-                    }
+                    )
+                    Log.d(ContentValues.TAG,"111")
                 }
 
                 BOTTOM_TABLE -> {
-                    // on loading
                     bottomArticleTableUiState = BottomArticleTableUiState.Loading
-                    delay(2000)
-                    bottomArticleTableUiState = try {
-                        BottomArticleTableUiState.Success(
-                            bottomArticleTable = getArticleTable(
-                                num = num,
-                                tableType = tableType,
-                                articleType = articleType,
-                                start = start
-                            )
-                        )
-                    }
-                    catch (e: IOException) {
-                        Log.e("IOException", e.toString())
-                        BottomArticleTableUiState.Error
-                    } catch (e: HttpException) {
-                        Log.e("HttpException", e.toString())
-                        BottomArticleTableUiState.Error
-                    } catch (e: SocketTimeoutException) {
-                        Log.e("SocketTimeoutException", e.toString())
-                        BottomArticleTableUiState.Error
-                    } catch (e: Exception) {
-                        Log.e("Exception", e.toString())
-                        BottomArticleTableUiState.Error
-                    }
+                    delay(DELAY_TIME)
+                    bottomArticleTableUiState = BottomArticleTableUiState.Success(
+                        NewsApi.retrofitService.getArticleByType(articleType)
+                    )
+                    Log.d(ContentValues.TAG,"222")
+                }
+
+                BOOKMARKED_TABLE -> {
+                    bookMarkedTableUiState = BookMarkedTableUiState.Loading
+                    delay(DELAY_TIME)
+                    bookMarkedTableUiState = BookMarkedTableUiState.Success(
+                        NewsApi.retrofitService.getBookmarkListById(userId)
+                    )
+                    Log.d(ContentValues.TAG,"333")
+                }
+
+                SEARCH_TABLE -> {
+                    searchTableUiState = SearchTableUiState.Loading
+                    delay(DELAY_TIME)
+                    searchTableUiState = SearchTableUiState.Success(
+                        NewsApi.retrofitService.getArticleByBlurText(searchText) +
+                                NewsApi.retrofitService.getArticleByBlurTitle(searchText) +
+                                NewsApi.retrofitService.getArticleByBlurAuthor(searchText) +
+                                NewsApi.retrofitService.getArticleByBlurType(searchText)
+                    )
                 }
             }
         }
-
     }
 
-    // 时间转换
-    private fun transSecond(
-
-    ) {
-
-    }
-
-    private fun getArticleTable (
-        tableType: Int,
-        start :Int = 0,
-        num: Int,
-        articleType: Int = -1
-    ) : List<ArticleItem>{
-        /* TODO 根据url查询 */
-        return List(1){
-            _ -> ArticleItem()
+    fun setSuccessFalse(){
+        viewModelScope.launch{
+            _userUiState.update { currentState ->
+                currentState.copy(
+                    success = 0L
+                )
+            }
         }
+    }
+    // 时间转换
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun trans(releaseTime: String):String{
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+        val current = releaseTime
+        val startTime = LocalDateTime
+            .parse(current, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
+        var sTime: Date = dateFormat.parse(startTime) as Date
+        var eTime: Date = Calendar.getInstance().time//系统现在时间
+        val diff = eTime.time - sTime.time
+        val days = diff / (1000 * 60 * 60 * 24)
+        val hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        val minutes = ((diff - days * (1000 * 3600 * 24)) - hours * (1000 * 3600)) / (1000 * 60)
+        val second = (diff - days * 1000 * 3600 * 24 - hours * 1000 * 3600 - minutes * 1000 * 60) / 1000
+        if(days > 0)
+            return "$days 天前"
+        else if(hours > 0)
+            return "$hours 小时前"
+        else if(minutes > 0)
+            return "$minutes 分钟前"
+        else if(second > 0)
+            return "$second 秒前"
+        else
+            return "刚刚"
     }
 
 }
+
+
+
 

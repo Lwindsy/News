@@ -14,11 +14,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,12 +42,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.composable
 import com.example.news.R
+import com.example.news.data.item.ArticleItem
+import com.example.news.data.item.CommentItem
 import com.example.news.ui.AllScreen
 import com.example.news.ui.screens.ArticleScreen
 import org.w3c.dom.Text
@@ -54,23 +60,29 @@ import org.w3c.dom.Text
 @Composable
 //世界新闻这里选择
 fun ShortCard(
+    articleItem: ArticleItem,
+    onArticleCardClick: (String) -> Unit = {}
 ){
     val painter = painterResource(id = R.drawable.z)
-    val enableState by remember {
+    /*val enableState by remember {
         mutableStateOf<Boolean>(true)
-    }
+    }*/
     Card(
         modifier = Modifier
             .size(width = 160.dp, height = 160.dp)
             .combinedClickable(
-                enabled = enableState,
+                /*enabled = enableState,*/
+                /* TODO -> szl
+                *   加个长按变大效果 */
                 onLongClick = {
                     Log.d(TAG, "发生长按点击操作了～")
                 },
                 onDoubleClick = {
                     Log.d(TAG, "发生双击操作了～")
                 },
-                onClick = {}
+                onClick = {
+                    onArticleCardClick(articleItem.articleId)
+                }
             ),
         shape = RoundedCornerShape(15.dp)
     ) {
@@ -91,7 +103,7 @@ fun ShortCard(
             {
                 Column() {
                     Text(
-                        "文章题目",
+                        articleItem.title,
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 16.sp
@@ -99,7 +111,7 @@ fun ShortCard(
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        "文章发布时间",
+                        articleItem.releaseTime,
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 10.sp
@@ -112,16 +124,35 @@ fun ShortCard(
     }
 }
 //校园看点部分的显示
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LongCard(){
+fun LongCard(
+    articleItem: ArticleItem,
+    onArticleCardClick: (String) -> Unit = {}
+){
     val painter = painterResource(id = R.drawable.z)
     Spacer(modifier = Modifier.width(5.dp))
     Card(
-        modifier = Modifier.size(width = 390.dp, height = 160.dp),
+        modifier = Modifier.size(width = 390.dp, height = 160.dp)
+            .combinedClickable(
+                /*enabled = enableState,*/
+                /* TODO -> szl
+                *   加个长按变大效果 */
+                onLongClick = {
+                    Log.d(TAG, "发生长按点击操作了～")
+                },
+                onDoubleClick = {
+                    Log.d(TAG, "发生双击操作了～")
+                },
+                onClick = {
+                    onArticleCardClick(articleItem.articleId)
+                }
+            ),
         shape = RoundedCornerShape(15.dp),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 50.dp,
-        )
+        ),
+
     ) {
             Box(modifier = Modifier.height(160.dp)) {
                 Row() {
@@ -143,7 +174,7 @@ fun LongCard(){
                         Column() {
                             Spacer(modifier = Modifier.height(20.dp))
                             Text(
-                                "文章分类",
+                                text = articleItem.type,
                                 style = TextStyle(
                                     color = Color.White,
                                     fontSize = 16.sp
@@ -151,7 +182,7 @@ fun LongCard(){
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
-                                "文章题目",
+                                text = articleItem.title,
                                 style = TextStyle(
                                     color = Color.White,
                                     fontSize = 30.sp
@@ -159,7 +190,7 @@ fun LongCard(){
                             )
                             Spacer(modifier = Modifier.height(20.dp))
                             Text(
-                                "文章作者+时间",
+                                text = articleItem.authorName + articleItem.releaseTime,
                                 style = TextStyle(
                                     color = Color.White,
                                     fontSize = 16.sp
@@ -350,4 +381,50 @@ fun profile_loading_card(){
             }
         }
     }
+}
+
+@Composable
+fun ShowCommentsCard(
+    modifier: Modifier = Modifier,
+    comment: CommentItem
+) {
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 5.dp, end = 5.dp, bottom = 5.dp)
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp, bottom = 15.dp),
+            horizontalArrangement = Arrangement.Center,//设置水平居中对齐
+            verticalAlignment =  Alignment.Top
+        ) {
+            /*用户昵称*/
+            Text(
+                // text = name + "："
+                text = comment.userId + "：",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(start = 15.dp)
+            )
+            /*评论*/
+            Text(
+                // text = "comment"
+                text = comment.commentText,
+                modifier = Modifier
+                    .padding(end = 15.dp)
+            )
+
+        }
+    }
+}
+
+
+
+@Preview
+@Composable
+fun pre(){
+    Article_loading_card()
 }

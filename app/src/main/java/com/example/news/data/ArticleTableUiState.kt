@@ -1,5 +1,7 @@
 package com.example.news.data
 
+import com.example.news.data.item.ArticleItem
+
 sealed interface SearchTableUiState {
     data class Success(val searchTable: List<ArticleItem>) : SearchTableUiState
     object Loading : SearchTableUiState
@@ -13,11 +15,10 @@ sealed interface HeadArticleTableUiState {
 }
 
 sealed interface BottomArticleTableUiState {
-    data class Success(val bottomArticleTable: List<ArticleItem>) : BottomArticleTableUiState
+    data class Success(val Table: List<ArticleItem>) : BottomArticleTableUiState
     object Loading : BottomArticleTableUiState
     object Error : BottomArticleTableUiState
 }
-
 sealed interface BookMarkedTableUiState {
     data class Success(val bookMarkedTable: List<ArticleItem>) : BookMarkedTableUiState
     object Loading : BookMarkedTableUiState

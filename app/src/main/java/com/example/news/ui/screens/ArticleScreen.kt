@@ -19,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,10 +45,13 @@ import com.example.news.ui.viewmodel.NewsAppViewModel
 @Composable
 fun ArticleScreen(
     viewModel: NewsAppViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCommentClick: () -> Unit = {}
 ) {
     var inputValue by remember { mutableStateOf("") }
     val input = inputValue ?: ""
+
+    val articleState by viewModel.articleUiState.collectAsState()
 
     Box {
         Image(
@@ -56,9 +60,9 @@ fun ArticleScreen(
             contentScale = ContentScale.Crop
         )
         Scaffold(
-            topBar = { ArticleScreenTop() },
+            /*TODO -> szl 点击评论按钮上传评论*/
             bottomBar = {
-                ArticleScreenBar(value = input, onValueChange = { inputValue = it })
+                ArticleScreenBar(value = input, onValueChange = { inputValue = it }, onCommentClick = onCommentClick)
             }
         ) {
             LazyColumn(
@@ -71,7 +75,7 @@ fun ArticleScreen(
                 /* 标题 */
                 item {
                     Text(
-                        text = "习近平在金砖国家领导人第十三次会晤上的讲话",
+                        text = articleState.articleItem.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color.Black,
@@ -85,7 +89,7 @@ fun ArticleScreen(
                 /* 作者 */
                 item {
                     Text(
-                        text = "理工日报",
+                        text = articleState.articleItem.authorName,
                         color = Color.Black,
 
                         modifier = Modifier.padding(start = 15.dp),
@@ -107,7 +111,7 @@ fun ArticleScreen(
                 }
 
                 /* 二级标题 */
-                item {
+                /*item {
                     Text(text =
                     "习近平：我们将扩大合作空间，加大对共建“一带路”" +
                             "国家服务业发展的支持，同世界共享中国技术发展成果。",
@@ -119,16 +123,15 @@ fun ArticleScreen(
                             .fillMaxWidth()
                             .padding(start = 15.dp, end = 15.dp)
                     )
-                }
+                }*/
 
                 item { Spacer(modifier = Modifier.height(10.dp)) }
 
 
                 /* 正文 */
-                items(50) {
+                item{
                     Text(
-                        text = "测试测试测试测试测试测试测试测试测试测试测试测试测试测试" +
-                                "测试测试测试测试测试测试",
+                        text = articleState.articleItem.bodyText,
                         color = Color.Black,
 
                         modifier = Modifier

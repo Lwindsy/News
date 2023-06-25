@@ -29,8 +29,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
+import com.example.news.data.item.UserItem
 import com.example.news.ui.utils.InputField
 import com.example.news.ui.utils.PasswordField
+import com.example.news.ui.viewmodel.NewsAppViewModel
 
 /* TODO 按照设计图写好此页面
 *       不需要管ButtonClicked如何实现的 */
@@ -45,13 +47,17 @@ import com.example.news.ui.utils.PasswordField
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     onLogInButtonClicked: () -> Unit = {},
-    onSignUpButtonClicked: () -> Unit = {}
+    onSignUpButtonClicked: (UserItem) -> Unit = {},
+    onSignUpSuccess: () -> Unit = {},
+    onReturnClicked: () -> Unit = {},
 ) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-        var username by remember { mutableStateOf("") }
-        val uname = username ?: ""       // 如果为空就置值为 ""
+
+
+        var userId by remember { mutableStateOf("") }
+        val uId = userId ?: ""       // 如果为空就置值为 ""
 
         var password by remember { mutableStateOf("") }
         val pwd = password ?: ""
@@ -80,10 +86,8 @@ fun SignUpScreen(
                     contentDescription = "返回图标",
                     modifier = Modifier
                         .padding(start = 15.dp)
-                        .clickable{
-                            /* TODO
-                            * 点击返回
-                            * */
+                        .clickable {
+                            onReturnClicked()
                             Log.i("ws", "back")
                         }
                 )
@@ -99,14 +103,14 @@ fun SignUpScreen(
                 Spacer(Modifier.height(40.dp))  // 增加间隔
 
                 Text(
-                    text = stringResource(R.string.signUp_username),
+                    text = stringResource(R.string.userId),
                     color = Color.Black,
                     modifier = Modifier
                         .padding(start = 15.dp)
                 )
                 InputField(
-                    value = uname,
-                    onValueChange = { username = it },
+                    value = uId,
+                    onValueChange = { userId = it },
                 )
 
                 Text(
@@ -146,7 +150,14 @@ fun SignUpScreen(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterHorizontally)
                         .size(width = 280.dp, height = 50.dp),
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        onSignUpButtonClicked(
+                            UserItem(
+                                userId = userId,
+                                password = pwd
+                            )
+                        )
+                    },
                     shape = AbsoluteRoundedCornerShape(//圆角
                         topLeft = 10.dp,
                         topRight = 10.dp,

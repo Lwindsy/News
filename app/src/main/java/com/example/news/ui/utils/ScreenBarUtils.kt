@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -62,6 +63,7 @@ fun ArticleScreenBar(
     /* 状态提升 */
     value: String,                  // 当前要显示的值
     onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
+    onCommentClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -72,15 +74,7 @@ fun ArticleScreenBar(
         horizontalArrangement = Arrangement.Center,//设置水平居中对齐
         verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
     ) {
-//        Icon(Icons.Filled.Search, "搜索")
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            singleLine = true,
-            textStyle = TextStyle(
-                color = colorResource(id = R.color.color_262626),
-                fontSize = 16.sp,
-            ),
+        Box(
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 30.dp)
@@ -90,7 +84,9 @@ fun ArticleScreenBar(
             painter = painterResource(id = R.drawable.comment),
             contentDescription = "",
             modifier = Modifier
-                .clickable { }
+                .clickable {
+                    onCommentClick()
+                }
         )
         Spacer(modifier = Modifier.width(8.dp))
         Image(
@@ -105,7 +101,9 @@ fun ArticleScreenBar(
 
 @Composable
 fun ProfileBottomBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onProfileClick:() -> Unit = {},
+    onHomeClick:() -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -120,10 +118,7 @@ fun ProfileBottomBar(
             contentDescription = "",
             modifier = Modifier
                 .clickable {
-                    /* TODO
-                    * 点击触发首页
-                    * */
-                    Log.i("ws", "去首页")
+                    onHomeClick()
                 }
         )
 
@@ -133,10 +128,7 @@ fun ProfileBottomBar(
             contentDescription = "",
             modifier = Modifier
                 .clickable {
-                    /* TODO
-                    * 点击触发首页
-                    * */
-                    Log.i("ws", "个人主页")
+                    onProfileClick()
                 }
         )
     }
@@ -144,7 +136,9 @@ fun ProfileBottomBar(
 
 @Composable
 fun HomepageBottomBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onProfileClick:() -> Unit = {},
+    onHomeClick:() -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -159,10 +153,7 @@ fun HomepageBottomBar(
             contentDescription = "",
             modifier = Modifier
                 .clickable {
-                    /* TODO
-                    * 点击触发首页
-                    * */
-                    Log.i("ws", "去首页")
+                    onHomeClick()
                 }
         )
 
@@ -172,10 +163,7 @@ fun HomepageBottomBar(
             contentDescription = "",
             modifier = Modifier
                 .clickable {
-                    /* TODO
-                    * 点击触发首页
-                    * */
-                    Log.i("ws", "个人主页")
+                    onProfileClick()
                 }
         )
     }

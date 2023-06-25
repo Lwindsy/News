@@ -63,7 +63,7 @@ import com.example.news.ui.viewmodel.NewsAppViewModel
 @Composable
 fun HeadArticleCard_Loading(
     modifier: Modifier = Modifier
-){
+) {
     val infiniteTransition = rememberInfiniteTransition()
     // 这个 alpha 也是一种State，现在alpha会按照设置好的数值来回变动
     val alpha by infiniteTransition.animateFloat(
@@ -124,60 +124,86 @@ fun HeadArticleCard_Loading(
         }
     }
 }
+
 //homepage不管咋样都正常显示吧.不需要
 @Composable
 fun homepage(
     viewModel: NewsAppViewModel,
     modifier: Modifier = Modifier
-){
+) {
 
 }
+
 //
+/*
 @Composable
 fun searchpage(
     viewModel: NewsAppViewModel,
     modifier: Modifier = Modifier
-){
+) {
     Head_SearchBar()
     when (viewModel.searchTableUiState) {
         is SearchTableUiState.Loading -> {
             Loading_Card()
-        /* 你写好的Loading组件，比如你写一个HeadArticleTable，里面是一个LazyRow展现上面的HeadArticleCard_Loading */
+            */
+/* 你写好的Loading组件，比如你写一个HeadArticleTable，里面是一个LazyRow展现上面的HeadArticleCard_Loading *//*
+
         }
+
         is SearchTableUiState.Success -> {
-            /* 你写好的Success组件 */
+            */
+/* 你写好的Success组件 *//*
+
             LongCard()
         }
+
         is SearchTableUiState.Error -> {
-            /* 忽略 */
+            */
+/* 忽略 *//*
+
         }
 
         else -> {}
     }
 }
+*/
+
+/*
 @Composable
 fun xxxScreen(
     viewModel: NewsAppViewModel,
     modifier: Modifier = Modifier
 ) {
-    /* 别的不管咋样都正常显示的组件 比如*/
+    */
+/* 别的不管咋样都正常显示的组件 比如*//*
+
 
     when (viewModel.bottomArticleTableUiState) {
         is BottomArticleTableUiState.Loading -> {
-            /* 你写好的Loading组件，比如你写一个HeadArticleTable，里面是一个LazyRow展现上面的HeadArticleCard_Loading */
+            */
+/* 你写好的Loading组件，比如你写一个HeadArticleTable，里面是一个LazyRow展现上面的HeadArticleCard_Loading *//*
+
         }
+
         is BottomArticleTableUiState.Success -> {
-            /* 你写好的Success组件 */
+            */
+/* 你写好的Success组件 *//*
+
         }
+
         is BottomArticleTableUiState.Error -> {
-            /* 忽略 */
+            */
+/* 忽略 *//*
+
         }
     }
 
     Card(
         elevation = CardDefaults.cardElevation()
-    ){
+    ) {
 
     }
-    /* 别的不管咋样都正常显示的组件 */
-}
+    */
+/* 别的不管咋样都正常显示的组件 *//*
+
+}*/

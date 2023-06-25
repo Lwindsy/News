@@ -7,6 +7,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.news.data.item.CommentItem
+import com.example.news.ui.theme.ShowCommentsCard
 import com.example.news.ui.utils.HomepageBottomBar
 import org.w3c.dom.Comment
 
@@ -14,15 +16,15 @@ import org.w3c.dom.Comment
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommentScreen(
-    commentList: List<Comment>,
+    commentList: List<CommentItem>,
     modifier: Modifier = Modifier
 ){
     Scaffold(
-        bottomBar = { HomepageBottomBar() }
+
     ) {
         LazyColumn(contentPadding = it) {
             items(commentList) {
-                Text(text = "测试")
+                ShowCommentsCard(comment = it)
             }
         }
     }
