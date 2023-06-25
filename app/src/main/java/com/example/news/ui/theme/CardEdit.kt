@@ -125,7 +125,7 @@ fun LongCard(){
     ) {
             Box(modifier = Modifier.height(160.dp)) {
                 Row() {
-                    Box(modifier = Modifier.size(width = 200.dp, height = 160.dp),
+                    Box(modifier = Modifier.size(width = 160.dp, height = 160.dp),
                         contentAlignment = Alignment.BottomStart) {
                         Image(
                             painter = painter,
@@ -136,35 +136,41 @@ fun LongCard(){
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     Box(
-                        modifier = Modifier.size(width = 185.dp, height = 160.dp),
+                        modifier = Modifier.size(width = 230.dp, height = 160.dp),
                         contentAlignment = Alignment.TopStart
                     )
                     {
                         Column() {
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Text(
-                                "文章分类",
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 16.sp
-                                )
-                            )
                             Spacer(modifier = Modifier.height(10.dp))
-                            Text(
-                                "文章题目",
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 30.sp
+                            Box(modifier = Modifier.size(width = 230.dp, height = 20.dp)){
+                                Text(
+                                    "文章类型",
+                                    style = TextStyle(
+                                        color = Color.Black,
+                                        fontSize = 16.sp
+                                    )
                                 )
-                            )
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Text(
-                                "文章作者+时间",
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 16.sp
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Box(modifier = Modifier.size(width = 230.dp, height = 85.dp)){
+                                Text(
+                                    "联大就《联合国全球反恐战略》第八次审议通过决议",//测试了一下，显示正常
+                                    style = TextStyle(
+                                        color = Color.Black,
+                                        fontSize = 20.sp
+                                    )
                                 )
-                            )
+                            }
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Box(modifier = Modifier.size(width = 230.dp, height = 20.dp)){
+                                Text(
+                                    "作者加时间",
+                                    style = TextStyle(
+                                        color = Color.Black,
+                                        fontSize = 15.sp
+                                    )
+                                )
+                            }
                         }
                     }
 
