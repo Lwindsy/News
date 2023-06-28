@@ -2,6 +2,7 @@ package com.example.news.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -57,7 +58,9 @@ import com.example.news.ui.viewmodel.NewsAppViewModel
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: NewsAppViewModel = NewsAppViewModel()
+    viewModel: NewsAppViewModel = NewsAppViewModel(),
+    onArticleCardClick:(String) -> Unit = {},
+    onReturnClicked: () -> Unit = {}
 ) {
     var inputValue by remember { mutableStateOf("") }
     val input = inputValue ?: ""
@@ -71,21 +74,36 @@ fun SearchScreen(
             contentScale = ContentScale.Crop
         )
         Column() {
-            SearchField(
-                text = input,
-                onValueChange = { inputValue = it },
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 50.dp, top = 20.dp, end = 50.dp)
-                    .height(40.dp)
-                    .background(
-                        Color.White, shape = androidx.compose.material.MaterialTheme.shapes.medium
-                    )
-                    .padding(horizontal = 16.dp),
-                hint = "搜索热门新闻",
-                startIcon = R.drawable.searchicon,
-                iconSpacing = 16.dp,
-            )
+                    .padding(start = 15.dp, top = 15.dp)
+            ){
+                Image(
+                    painterResource(R.drawable.back_icon),
+                    contentDescription = "返回图标",
+                    modifier = Modifier
+                        .padding(start = 15.dp)
+                        .clickable {
+                            onReturnClicked()
+                        }
+                )
+                SearchField(
+                    text = input,
+                    onValueChange = { inputValue = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+//                        .padding(start = 50.dp, top = 20.dp, end = 50.dp)
+                        .height(40.dp)
+                        .background(
+                            Color.White,
+                            shape = androidx.compose.material.MaterialTheme.shapes.medium
+                        )
+                        .padding(horizontal = 16.dp),
+                    hint = "搜索热门新闻",
+                    startIcon = R.drawable.searchicon,
+                    iconSpacing = 16.dp,
+                )
+            }
             Spacer(modifier = Modifier.height(20.dp))
             //添加根据输入的信息显示内容 没有搜到就一直是Loading_card
 
@@ -94,7 +112,7 @@ fun SearchScreen(
                     LazyColumn(content = {
                         items(searchTableState.searchTable) {
                             Spacer(modifier = Modifier.height(20.dp))
-                            LongCard(it)
+                            LongCard(it, onArticleCardClick = onArticleCardClick)
                         }
                     })
                 }

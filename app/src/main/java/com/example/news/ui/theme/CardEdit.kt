@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -63,7 +64,7 @@ fun ShortCard(
     articleItem: ArticleItem,
     onArticleCardClick: (String) -> Unit = {}
 ){
-    val painter = painterResource(id = R.drawable.z)
+    val painter = painterResource(id = R.drawable.main_one)
     /*val enableState by remember {
         mutableStateOf<Boolean>(true)
     }*/
@@ -130,10 +131,11 @@ fun LongCard(
     articleItem: ArticleItem,
     onArticleCardClick: (String) -> Unit = {}
 ){
-    val painter = painterResource(id = R.drawable.z)
+    val painter = painterResource(id = R.drawable.main_one)
     Spacer(modifier = Modifier.width(5.dp))
     Card(
-        modifier = Modifier.size(width = 390.dp, height = 160.dp)
+        modifier = Modifier
+            .size(width = 390.dp, height = 160.dp)
             .combinedClickable(
                 /*enabled = enableState,*/
                 /* TODO -> szl
@@ -156,7 +158,7 @@ fun LongCard(
     ) {
             Box(modifier = Modifier.height(160.dp)) {
                 Row() {
-                    Box(modifier = Modifier.size(width = 200.dp, height = 160.dp),
+                    Box(modifier = Modifier.size(width = 160.dp, height = 160.dp),
                         contentAlignment = Alignment.BottomStart) {
                         Image(
                             painter = painter,
@@ -167,35 +169,41 @@ fun LongCard(
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     Box(
-                        modifier = Modifier.size(width = 185.dp, height = 160.dp),
+                        modifier = Modifier.size(width = 230.dp, height = 160.dp),
                         contentAlignment = Alignment.TopStart
                     )
                     {
                         Column() {
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Text(
-                                text = articleItem.type,
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 16.sp
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Box(modifier = Modifier.size(width = 230.dp, height = 20.dp)) {
+                                Text(
+                                    text = articleItem.type,
+                                    style = TextStyle(
+                                        color = Color.Black,
+                                        fontSize = 16.sp
+                                    )
                                 )
-                            )
+                            }
                             Spacer(modifier = Modifier.height(10.dp))
-                            Text(
-                                text = articleItem.title,
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 30.sp
+                            Box(modifier = Modifier.size(width = 230.dp, height = 85.dp)) {
+                                Text(
+                                    text = articleItem.title,
+                                    style = TextStyle(
+                                        color = Color.Black,
+                                        fontSize = 20.sp
+                                    )
                                 )
-                            )
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Text(
-                                text = articleItem.authorName + articleItem.releaseTime,
-                                style = TextStyle(
-                                    color = Color.White,
-                                    fontSize = 16.sp
+                            }
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Box(modifier = Modifier.size(width = 230.dp, height = 20.dp)) {
+                                Text(
+                                    text = articleItem.authorName + articleItem.releaseTime,
+                                    style = TextStyle(
+                                        color = Color.Black,
+                                        fontSize = 15.sp
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
 
@@ -391,20 +399,24 @@ fun ShowCommentsCard(
 
     Card(
         modifier = modifier
+            .background(color = Color.White)
             .fillMaxWidth()
             .padding(start = 5.dp, end = 5.dp, bottom = 5.dp)
     ) {
         Row(
             modifier = modifier
+                .background(color = colorResource(id = R.color.PurpleGrey80))
                 .fillMaxWidth()
                 .padding(top = 15.dp, bottom = 15.dp),
-            horizontalArrangement = Arrangement.Center,//设置水平居中对齐
+            horizontalArrangement = Arrangement.Start,//设置水平居中对齐
             verticalAlignment =  Alignment.Top
         ) {
             /*用户昵称*/
             Text(
                 // text = name + "："
                 text = comment.userId + "：",
+                color = Color.Black,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(start = 15.dp)
@@ -413,6 +425,8 @@ fun ShowCommentsCard(
             Text(
                 // text = "comment"
                 text = comment.commentText,
+                color = Color.Black,
+                fontSize = 20.sp,
                 modifier = Modifier
                     .padding(end = 15.dp)
             )

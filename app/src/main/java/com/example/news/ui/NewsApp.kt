@@ -79,10 +79,6 @@ fun NewsAppHeadBar(
             Head_SearchBar(onSearchClick = onSearchClick)
         }
 
-        R.string.Search -> {
-            Head_SearchBar(onSearchClick = onSearchClick)
-        }
-
         R.string.Signup -> {
             Head_SignupBar()
         }
@@ -316,7 +312,16 @@ fun NewsApp(
             }
             composable(route = AllScreen.Search.name) {
                 SearchScreen(
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    onArticleCardClick = {
+                        viewModel.viewModelScope.launch {
+                            viewModel.getArticle(it.toLong())
+                        }
+                        navController.navigate(AllScreen.Article.name)
+                    },
+                    onReturnClicked = {
+                        navController.navigate(AllScreen.HomePage.name)
+                    }
                 )
             }
             composable(route = AllScreen.Profile.name) {

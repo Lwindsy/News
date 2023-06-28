@@ -18,6 +18,10 @@ import retrofit2.http.Path
 private const val BASE_URL =
     "http://10.0.2.2:8080"
 
+// 请务必将手机和电脑连接同一局域网
+private const val PC_URL =
+    "http://{your computer's ip}:8080"
+
 
 @OptIn(ExperimentalSerializationApi::class)
 private val retrofit = Retrofit.Builder()

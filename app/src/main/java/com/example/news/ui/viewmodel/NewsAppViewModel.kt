@@ -250,12 +250,17 @@ class NewsAppViewModel : ViewModel() {
                 SEARCH_TABLE -> {
                     searchTableUiState = SearchTableUiState.Loading
                     delay(DELAY_TIME)
-                    searchTableUiState = SearchTableUiState.Success(
-                        NewsApi.retrofitService.getArticleByBlurText(searchText) +
-                                NewsApi.retrofitService.getArticleByBlurTitle(searchText) +
-                                NewsApi.retrofitService.getArticleByBlurAuthor(searchText) +
-                                NewsApi.retrofitService.getArticleByBlurType(searchText)
-                    )
+                    if(searchText === ""){
+                        // do nothing
+                    }
+                    else{
+                        searchTableUiState = SearchTableUiState.Success(
+                            NewsApi.retrofitService.getArticleByBlurText(searchText) +
+                                    NewsApi.retrofitService.getArticleByBlurTitle(searchText) +
+                                    NewsApi.retrofitService.getArticleByBlurAuthor(searchText) +
+                                    NewsApi.retrofitService.getArticleByBlurType(searchText)
+                        )
+                    }
                 }
             }
         }

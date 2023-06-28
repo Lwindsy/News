@@ -69,7 +69,7 @@ fun ProfileScreen(
     val followAmountPe: String = userInfo.followNum.toString()
     val likeAmount: String = userInfo.likeNum.toString()
     val reviewAmount: String = userInfo.commentNum.toString()
-    val personalSignature: String = ""
+    val personalSignature: String = userInfo.userName
     Scaffold(
     ) {
         /*TODO
@@ -98,9 +98,10 @@ fun ProfileScreen(
                         androidx.compose.material3.Text(
                             modifier = Modifier
                                 .padding(top = 14.dp),
+//                            fontSize = 26.sp,
                             text = personalSignature,
                             color = Color.Black,
-                            fontSize = 14.sp
+                            fontSize = 26.sp
                         )
                     }
 
@@ -120,13 +121,13 @@ fun ProfileScreen(
                             text = stringResource(R.string.profile_follow),
                             fontSize = 18.sp,
                         )
-                        Spacer(modifier = Modifier.width(40.dp))
+                        Spacer(modifier = Modifier.width(60.dp))
                         androidx.compose.material3.Text(
                             text = stringResource(R.string.profile_like),
                             fontSize = 18.sp,
                         )
 
-                        Spacer(modifier = Modifier.width(40.dp))
+                        Spacer(modifier = Modifier.width(60.dp))
                         androidx.compose.material3.Text(
                             text = stringResource(R.string.profile_review),
                             fontSize = 18.sp,
@@ -144,14 +145,14 @@ fun ProfileScreen(
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold
                         )
-                        Spacer(modifier = Modifier.width(40.dp))
+                        Spacer(modifier = Modifier.width(80.dp))
                         androidx.compose.material3.Text(
                             text = likeAmount,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold
                         )
 
-                        Spacer(modifier = Modifier.width(40.dp))
+                        Spacer(modifier = Modifier.width(80.dp))
                         androidx.compose.material3.Text(
                             text = reviewAmount,
                             fontSize = 20.sp,

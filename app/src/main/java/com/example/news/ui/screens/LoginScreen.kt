@@ -102,11 +102,13 @@ fun LoginScreen(
                 verticalAlignment =  Alignment.CenterVertically//设置垂直居中对齐
             ) {
                 Text(
-                    text = "没有账号？",
+//                    text = "没有账号？",
+                    text = "",
                     color = Color.Black
                 )
                 Text(
-                    text = stringResource(R.string.login_head_three),
+//                    text = stringResource(R.string.login_head_three),
+                    text = "",
                     color = Color.Blue,
                     modifier = Modifier
                         .clickable(onClick = onSignUpButtonClicked)
@@ -170,14 +172,16 @@ fun LoginScreen(
                 * 需要加一个复选框，记住当前用户情况
                 * */
                 Text(
-                    text = stringResource(R.string.login_remember),
+                    text = "",
+//                    text = stringResource(R.string.login_remember),
                     color = Color.Black,
                 )
 
                 Spacer(Modifier.width(180.dp))  // 增加间隔
 
                 Text(
-                    text = stringResource(R.string.login_helper),
+                    text = "",
+//                    text = stringResource(R.string.login_helper),
                     color = Color.Black,
                     modifier = Modifier
                         .align(alignment = Alignment.CenterVertically)

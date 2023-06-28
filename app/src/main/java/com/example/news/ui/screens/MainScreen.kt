@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -103,14 +105,21 @@ fun MainScreenButton(
         // 垂直居中
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(
-            onClick = onSignUpButtonClicked,
-            modifier = Modifier.padding(end = 20.dp)    // 调整两个按钮之间的距离
-        ) {
-            Text(text = "注册")
-        }
+//        Button(
+//            onClick = onSignUpButtonClicked,
+//            modifier = Modifier.padding(end = 20.dp)    // 调整两个按钮之间的距离
+//        ) {
+//            Text(text = "注册")
+//        }
         Button(onClick = onLogInButtonClicked) {
-            Text(text = "登录")
+            Text(
+                text = "登录",
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+//                    .fillMaxWidth()
+                    .size(width = 160.dp, height = 30.dp)
+            )
         }
     }
 }
