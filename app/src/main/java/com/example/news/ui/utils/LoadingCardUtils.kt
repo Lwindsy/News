@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,19 +20,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.news.R
 
 
 /**
@@ -58,8 +51,6 @@ fun ProfileCollectedLoadingCard(
         )
     )
 
-    // 具体的格式需要对照具体的样式
-    val painter = painterResource(id = R.drawable.z)
     Spacer(modifier = Modifier.width(5.dp))
     Card(
         modifier = Modifier.size(width = 390.dp, height = 160.dp),
@@ -73,7 +64,7 @@ fun ProfileCollectedLoadingCard(
                 .height(160.dp)
                 .background(Color.Gray.copy(alpha = alpha))
         ) {
-            Row() {
+            Row {
                 Box(
                     contentAlignment = Alignment.BottomStart,
                     modifier = Modifier
@@ -82,7 +73,7 @@ fun ProfileCollectedLoadingCard(
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(width = 160.dp,height = 160.dp)
+                            .size(width = 160.dp, height = 160.dp)
                             .background(Color.Gray.copy(alpha = alpha)),
                     )
                 }
@@ -94,7 +85,7 @@ fun ProfileCollectedLoadingCard(
                         .background(Color.Gray.copy(alpha = alpha))
                 )
                 {
-                    Column() {
+                    Column {
                         Spacer(modifier = Modifier.height(20.dp))
 
                         Box(
@@ -122,7 +113,7 @@ fun ProfileCollectedLoadingCard(
 @Composable
 fun HeadArticleCardLoading(
     modifier: Modifier = Modifier
-){
+) {
     val infiniteTransition = rememberInfiniteTransition()
     // 这个 alpha 也是一种State，现在alpha会按照设置好的数值来回变动
     val alpha by infiniteTransition.animateFloat(

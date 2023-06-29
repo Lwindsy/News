@@ -2,11 +2,10 @@ package com.example.news.network
 
 import com.example.news.data.item.ArticleItem
 import com.example.news.data.item.CommentItem
-import com.example.news.data.item.FollowItem
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import com.example.news.data.item.UserItem
-import com.example.news.data.item.serverResult
+import com.example.news.data.item.ServerResult
 import kotlinx.serialization.ExperimentalSerializationApi
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -19,8 +18,8 @@ private const val BASE_URL =
     "http://10.0.2.2:8080"
 
 // 请务必将手机和电脑连接同一局域网
-private const val PC_URL =
-    "http://{your computer's ip}:8080"
+//private const val PC_URL =
+//    "http://{your computer's ip}:8080"
 
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -34,7 +33,7 @@ interface NewsApiService {
     suspend fun getUserById(@Path("id") id: Long): UserItem
 
     @POST("/user/create")
-    suspend fun getSignUpResult(@Body user: UserItem): serverResult
+    suspend fun getSignUpResult(@Body user: UserItem): ServerResult
 
     @GET("/article/{id}")
     suspend fun getArticleById(@Path("id") id: Long): ArticleItem
@@ -67,13 +66,13 @@ interface NewsApiService {
     suspend fun getFollowingListById(@Path("id") id: Long): List<UserItem>
 
     @GET("/likes/GULN/{id}")
-    suspend fun getUserLikeNum(@Path("id") id: Long): serverResult
+    suspend fun getUserLikeNum(@Path("id") id: Long): ServerResult
 
     @GET("/likes/GALN/{id}")
-    suspend fun getArticleLikeNum(@Path("id") id: Long): serverResult
+    suspend fun getArticleLikeNum(@Path("id") id: Long): ServerResult
 
     @GET("/user/login/{userId}/{password}")
-    suspend fun getLoginResult(@Path("userId") userId:Long,@Path("password") password:String): serverResult
+    suspend fun getLoginResult(@Path("userId") userId:Long,@Path("password") password:String): ServerResult
 }
 
 

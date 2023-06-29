@@ -19,6 +19,7 @@ sealed interface BottomArticleTableUiState {
     object Loading : BottomArticleTableUiState
     object Error : BottomArticleTableUiState
 }
+
 sealed interface BookMarkedTableUiState {
     data class Success(val bookMarkedTable: List<ArticleItem>) : BookMarkedTableUiState
     object Loading : BookMarkedTableUiState

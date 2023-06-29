@@ -32,16 +32,6 @@ import com.example.news.R
 import com.example.news.data.item.UserItem
 import com.example.news.ui.utils.InputField
 import com.example.news.ui.utils.PasswordField
-import com.example.news.ui.viewmodel.NewsAppViewModel
-
-/* TODO 按照设计图写好此页面
-*       不需要管ButtonClicked如何实现的 */
-
-// 注意！你不应该在Screen部分更改State
-
-// 注意，Screen的参数定义一律按照👇这样子来.不是函数的参数全部小写字母，否则驼峰命名法.
-// 另外，你应该将screen内所有的组件写为无状态组件.参照https://developer.android.com/codelabs/basic-android-kotlin-compose-using-state?hl=zh-cn&continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fandroid-basics-compose-unit-2-pathway-3%3Fhl%3Dzh-cn%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fbasic-android-kotlin-compose-using-state#11
-// 这个screen需要接收的UiState直接在参数里定义，在NewsApp调用处把Ui+State传进去.
 
 @Composable
 fun SignUpScreen(
@@ -57,13 +47,13 @@ fun SignUpScreen(
 
 
         var userId by remember { mutableStateOf("") }
-        val uId = userId ?: ""       // 如果为空就置值为 ""
+        val uId = userId      // 如果为空就置值为 ""
 
         var password by remember { mutableStateOf("") }
-        val pwd = password ?: ""
+        val pwd = password
 
         var checkPassword by remember { mutableStateOf("") }
-        val cpwd = checkPassword ?: ""
+        val cpwd = checkPassword
 
         // 外层使用 Box 布局包裹
         Box {
@@ -176,10 +166,6 @@ fun SignUpScreen(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .clickable {
-                            /* TODO
-                            * 这里定义去到注册页面的点击事件
-                            *
-                            * */
                             Log.i("ws", "去登录")
                         })
             }

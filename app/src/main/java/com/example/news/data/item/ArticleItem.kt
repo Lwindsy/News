@@ -2,10 +2,10 @@ package com.example.news.data.item
 
 import kotlinx.serialization.Serializable
 
+// all information you need about an article
 @Serializable
 data class ArticleItem (
     val title: String = "",
-    // the origin time would be in seconds
     val releaseTime: String = "",
     val bodyText: String = "",
     val type: String = "",

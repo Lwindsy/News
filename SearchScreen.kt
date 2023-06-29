@@ -21,10 +21,6 @@ import com.example.news.R
 import com.example.news.data.ArticleItem
 import com.example.news.ui.theme.NewsTheme
 
-/* TODO ArticleTableUiScreen 里的 searchTable 用于此screen */
-
-// 注意！你不应该在Screen部分更改State
-
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,

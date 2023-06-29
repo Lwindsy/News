@@ -23,56 +23,57 @@ import com.example.news.ui.utils.SearchField
 
 @Composable
 fun Head_SearchBar(
-    onSearchClick:(String) -> Unit = {}
-){
+    onSearchClick: (String) -> Unit = {}
+) {
     var inputValue by remember { mutableStateOf("") }
-    val input = inputValue ?: ""
-    Box( modifier = Modifier.height(40.dp)
+    val input = inputValue
+    Box(modifier = Modifier
+        .height(40.dp)
         .clickable { onSearchClick(input) }
-    ){
-    SearchField(
-        text = input,
-        onValueChange = { inputValue = it },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 50.dp, top = 20.dp, end = 50.dp)
-            .height(40.dp)
-            .background(Color.White, shape = MaterialTheme.shapes.medium)
-            .padding(horizontal = 16.dp)
-            .clickable { onSearchClick(input) },//点击搜索跳转SearchScreen()
-        hint = "搜索热门新闻",
-        startIcon = R.drawable.searchicon,
-        iconSpacing = 16.dp,
+    ) {
+        SearchField(
+            text = input,
+            onValueChange = { inputValue = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 50.dp, top = 20.dp, end = 50.dp)
+                .height(40.dp)
+                .background(Color.White, shape = MaterialTheme.shapes.medium)
+                .padding(horizontal = 16.dp)
+                .clickable { onSearchClick(input) },//点击搜索跳转SearchScreen()
+            hint = "搜索热门新闻",
+            startIcon = R.drawable.searchicon,
+            iconSpacing = 16.dp,
 //                textStyle = ,
-        // keyboardType -> 半个 inputType; 这里是 Phone
+            // keyboardType -> 半个 inputType; 这里是 Phone
 //                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-    )}
+        )
+    }
 }
+
 @Composable
-fun Head_SignupBar(){
+fun Head_SignupBar() {
     Image(
         painterResource(R.drawable.back_icon),
         contentDescription = "返回图标",
         modifier = Modifier
             .padding(start = 15.dp)
-            .clickable{
-                /* TODO
-                * 点击返回
-                * */
+            .clickable {
                 Log.i("ws", "back")
             }
     )
 }
+
 @Composable
 fun Head_ArticleBar(
-    onReturnClicked:() -> Unit = {}
-){
+    onReturnClicked: () -> Unit = {}
+) {
     Image(
         painterResource(R.drawable.back_icon),
         contentDescription = "返回图标",
         modifier = Modifier
             .padding(start = 15.dp)
-            .clickable{
+            .clickable {
                 onReturnClicked()
             }
     )

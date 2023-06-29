@@ -2,8 +2,10 @@ package com.example.news.data.item
 
 import kotlinx.serialization.Serializable
 
+const val FALSE = 0
+const val TRUE = 1
+
 @Serializable
-data class BookmarkItem(
-    val userId:String = "",
-    val articleId:String = ""
+data class ServerResult (
+    val result:Int = FALSE
 )

@@ -2,7 +2,6 @@ package com.example.news.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,9 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,34 +23,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.affirmations.model.Affirmation
 import com.example.news.R
 import com.example.news.data.BookMarkedTableUiState
-import com.example.news.data.BottomArticleTableUiState
-import com.example.news.ui.AllScreen
-import com.example.news.ui.NewsAppBottomBar
 import com.example.news.ui.theme.LongCard
-import com.example.news.ui.utils.HeadArticleCardLoading
 import com.example.news.ui.utils.MyDivider
 import com.example.news.ui.utils.ProfileCollectedLoadingCard
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
-/* TODO UserUiState用于此screen */
-// 注意！你不应该在Screen部分更改State
-
-/**
- * followAmountPe -- 关注人数
- * likeAmount -- 点赞人数
- * reviewAmount -- 评论人数
- * personalSignature -- 个性签名，就是头像后面的名字和骚话
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
@@ -66,17 +48,11 @@ fun ProfileScreen(
     val userInfo by viewModel.userUiState.collectAsState()
 
     // 获取 viewModel 来封装信息
-    val followAmountPe: String = userInfo.followNum.toString()
-    val likeAmount: String = userInfo.likeNum.toString()
-    val reviewAmount: String = userInfo.commentNum.toString()
+    val followAmountPe: String = userInfo.followNum
+    val likeAmount: String = userInfo.likeNum
+    val reviewAmount: String = userInfo.commentNum
     val personalSignature: String = userInfo.userName
-    Scaffold(
-    ) {
-        /*TODO
-        这里是收藏的列表数据，暂时不太明白如何操作
-         */
-        val collectList =
-
+    Scaffold{
             LazyColumn(contentPadding = it) {
                 item { Spacer(modifier = Modifier.height(30.dp)) }
 

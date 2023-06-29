@@ -1,6 +1,5 @@
 package com.example.news.ui
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,7 +16,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.news.R
-import com.example.news.network.NewsApi
 import com.example.news.ui.screens.ArticleScreen
 import com.example.news.ui.screens.CommentScreen
 import com.example.news.ui.screens.HomePageScreen
@@ -36,10 +34,8 @@ import com.example.news.ui.viewmodel.BOTTOM_TABLE
 import com.example.news.ui.viewmodel.HEAD_TABLE
 import com.example.news.ui.viewmodel.NewsAppViewModel
 import com.example.news.ui.viewmodel.SEARCH_TABLE
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.reflect.typeOf
 
 // for navigation
 enum class AllScreen(@StringRes val title: Int) {
@@ -61,11 +57,6 @@ fun NewsAppHeadBar(
     onReturnClicked: () -> Unit = {},
     onSearchClick:(String) -> Unit = {}
 ) {
-    /* TODO -> 马小乐
-        完善这个bar：针对每一个不同的screen有不同的headBar。样式请看zzy的设计
-        用when语句判断currentScreen即可
-        比如 mainpage里的搜索框，文章界面上面的返回按钮，都属于这个bar
-    */
     when (currentScreen.title) {
         R.string.Article -> {
             Head_ArticleBar(
@@ -158,12 +149,6 @@ fun composable(route: Any, function: () -> Unit) {
 
 }
 
-/*TODO -> 孙振林
-   ①完善各个screen的调用（当然，要先把各个Screen完成），包括：{
-         1、onClicked等lambda的声明
-         2、返回上一screen等函数的编写
-   }*/
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsApp(
@@ -181,8 +166,6 @@ fun NewsApp(
 
     val userState by viewModel.userUiState.collectAsState()
     val articleItem by viewModel.articleUiState.collectAsState()
-
-    /* TODO 把screen定义好。OnClicked函数应在调用处定义为lambda表达式，内部调用viewmodel的函数 */
     Scaffold(
         topBar = {
             NewsAppHeadBar(currentScreen = currentScreen,
@@ -267,18 +250,21 @@ fun NewsApp(
                                 articleType = "notification"
                             )
                         }
+                        /* querying User's bookmark would only start when user successfully log in.So probably the ProfileLoadingCard is not necessary,
+                        * unless we start the query while entering profile.
+                        */
                         viewModel.viewModelScope.launch {
                             viewModel.getArticleTable(
                                 tableType = BOOKMARKED_TABLE,
                                 userId = userState.userId.toLong()
                             )
                         }
-                        Log.d("z","sdsdas")
                         viewModel.viewModelScope.launch {
                             viewModel.getUserInfo(userId = userState.userId.toLong())
                         }
                         navController.navigate(AllScreen.HomePage.name)
                         viewModel.viewModelScope.launch{
+                            //
                             delay(1000)
                             viewModel.setSuccessFalse()
                         }

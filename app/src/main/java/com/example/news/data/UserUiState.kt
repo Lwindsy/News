@@ -1,20 +1,21 @@
 package com.example.news.data
 
 import com.example.news.data.item.ArticleItem
-import com.example.news.data.item.BookmarkItem
 import com.example.news.data.item.CommentItem
-import com.example.news.data.item.FollowItem
 import com.example.news.data.item.LikeItem
 import com.example.news.data.item.UserItem
 
 data class UserUiState(
-    // 是否成功登入
+    /* 3 cases:{
+    *   0L -> fail to log in
+    *   1L -> successfully log in
+    *   2L -> haven't try to log in yet*/
+    /* TODO try to reset the logInState to 2L while the input field's content changes*/
     val success: Long = 2L,
     // 失败信息
-    val failmsg:String = "",
+    val failmsg: String = "",
 
     val userId: String = "",
-
     val userName: String = "",
     // list of following users' Id
     val followingList: List<UserItem> = listOf(),
@@ -26,7 +27,7 @@ data class UserUiState(
     val bookmarkList: List<ArticleItem> = listOf(),
 
     // likeNum
-    val likeNum : String = "-1",
-    val commentNum : String = "-1",
-    val followNum : String = "-1"
+    val likeNum: String = "-1",
+    val commentNum: String = "-1",
+    val followNum: String = "-1"
 )

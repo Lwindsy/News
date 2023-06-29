@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
@@ -40,11 +38,6 @@ import com.example.news.data.item.UserItem
 import com.example.news.ui.utils.InputField
 import com.example.news.ui.utils.PasswordField
 import com.example.news.ui.viewmodel.NewsAppViewModel
-
-/* TODO 按照设计图写好此页面(先不用写“记住密码”和“忘记密码”，记住密码需要本地缓存)
-*       不需要管ButtonClicked如何实现的 */
-
-// 注意！你不应该在Screen部分更改State
 
 @Composable
 fun LoginScreen(
@@ -59,10 +52,10 @@ fun LoginScreen(
         color = MaterialTheme.colorScheme.background
     ) {
         var userId by remember { mutableStateOf("") }
-        val uId = userId ?: ""       // 如果为空就置值为 ""
+        val uId = userId     // 如果为空就置值为 ""
 
         var password by remember { mutableStateOf("") }
-        val pwd = password ?: ""
+        val pwd = password
 
         val userState by newsAppViewModel.userUiState.collectAsState()
 
@@ -186,9 +179,6 @@ fun LoginScreen(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterVertically)
                         .clickable {
-                            /* TODO
-                            * 这里可以定义点击事件
-                            * */
                             Log.i("1", "忘记密码")
                         }
                 )
@@ -225,16 +215,5 @@ fun LoginScreen(
             }
         }
 
-    }
-}
-
-@Composable
-fun LoginMessage(
-    resultMessage: String,
-    modifier: Modifier = Modifier
-) {
-    Column {
-        Text(text = "用户名或密码错误！请检查后重新输入")
-        Text(text = resultMessage)
     }
 }

@@ -88,10 +88,6 @@ fun PasswordField(
     onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
     modifier: Modifier = Modifier
 ) {
-
-    // -> 王松 马小乐
-    // 想要阴影效果就像我这样，组件套个ElevatedCard然后加个elevation属性就行（我在design界面没看出来啥。。。也许运行会不一样？反正你们先写着）。
-    // 记得这个ElevatedCard会被里面的东西盖住，所以如果你不把（textfield）设置成透明的话没法体现阴影（而且这样也更好看）
     ElevatedCard(
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 50.dp,
@@ -137,7 +133,6 @@ fun SearchField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     cursorBrush: Brush = SolidColor(MaterialTheme.colors.primary)
 ) {
-    // 焦点, 用于控制是否显示 右侧叉号
     var hasFocus by remember { mutableStateOf(false) }
 
     BasicTextField(
@@ -164,14 +159,14 @@ fun SearchField(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // -1 不显示 左侧Icon
-                if(startIcon != -1){
+                if (startIcon != -1) {
                     Image(painter = painterResource(id = startIcon), contentDescription = null)
                     Spacer(modifier = Modifier.width(iconSpacing))
                 }
 
-                Box(modifier = Modifier.weight(1f)){
+                Box(modifier = Modifier.weight(1f)) {
                     // 当空字符时, 显示hint
-                    if(text.isEmpty())
+                    if (text.isEmpty())
                         Text(text = hint, color = Color.Gray, style = textStyle)
 
                     // 原本输入框的内容
@@ -179,7 +174,7 @@ fun SearchField(
                 }
 
                 // 存在焦点 且 有输入内容时. 显示叉号
-                if(hasFocus && text.isNotEmpty()) {
+                if (hasFocus && text.isNotEmpty()) {
                     Image(imageVector = Icons.Filled.Clear, // 清除图标
                         contentDescription = null,
                         // 点击就清空text

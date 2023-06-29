@@ -1,20 +1,14 @@
 package com.example.news.ui.viewmodel
 
 import android.content.ContentValues
-import android.os.Build
+//import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+//import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import coil.network.HttpException
-import com.example.news.data.item.ArticleItem
 import com.example.news.data.ArticleUiState
 import com.example.news.data.BookMarkedTableUiState
 import com.example.news.data.BottomArticleTableUiState
@@ -25,7 +19,6 @@ import com.example.news.data.SignUpInfoUiState
 import com.example.news.data.UserUiState
 import com.example.news.data.item.UserItem
 import com.example.news.network.NewsApi
-import com.example.news.network.NewsApiService
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,18 +26,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.net.SocketTimeoutException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Date
-
-/* TODO :
-    ①定义好各个更新State的函数，如updateArticle用于查询数据并更新ArticleUiState
-    ②定义好利用Url在局域网内查询主机数据库的各个函数 -> 孙振林's Job
- */
+//import java.text.SimpleDateFormat
+//import java.time.LocalDateTime
+//import java.time.format.DateTimeFormatter
+//import java.util.Calendar
+//import java.util.Date
 
 const val HEAD_TABLE = 0
 const val BOTTOM_TABLE = 1
@@ -85,20 +71,11 @@ class NewsAppViewModel : ViewModel() {
     private val _signUpInfoUiState = MutableStateFlow(SignUpInfoUiState())
     val signUpInfoUiState: StateFlow<SignUpInfoUiState> = _signUpInfoUiState.asStateFlow()
 
-    /* TODO :
-    *    ！！！注意，screen需要往这些函数传什么参数请自行添加（不过应该不会有）
-    *    这些函数都需要数据查询。我接下来会写好springBoot的数据库以url的形式调用，你们先假设已经下面这几个函数已经写好了，直接调用。
-    *    ①注册提交函数
-    *    ②登录提交函数
-    *    ③进入文章函数（利用ID查询）
-    *    ④用户查询函数
-    *    ⑤时间转换（秒转换为分钟小时等）   */
-
-    // 用于提交注册信息
+    // 用于提交注册信息（暂时没用）
     fun commitSignUpInfo(
         userItem: UserItem
     ) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             _signUpInfoUiState.update { currentState ->
                 currentState.copy(
                     signUpResultUiState = NewsApi.retrofitService.getSignUpResult(userItem).result == 1
@@ -111,10 +88,13 @@ class NewsAppViewModel : ViewModel() {
     fun cmpUserInfo(
         userItem: UserItem
     ) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             _userUiState.update { currentState ->
                 currentState.copy(
-                    success = NewsApi.retrofitService.getLoginResult(userItem.userId.toLong(),userItem.password).result.toLong(),
+                    success = NewsApi.retrofitService.getLoginResult(
+                        userItem.userId.toLong(),
+                        userItem.password
+                    ).result.toLong(),
                     userId = userItem.userId,
                     userName = userItem.userName
                 )
@@ -124,7 +104,7 @@ class NewsAppViewModel : ViewModel() {
 
     // 获取文章信息（并更新State）
     fun getArticle(
-        articleId : Long
+        articleId: Long
     ) {
         viewModelScope.launch {
             coroutineScope {
@@ -133,7 +113,9 @@ class NewsAppViewModel : ViewModel() {
                         currentState.copy(
                             articleItem = NewsApi.retrofitService.getArticleById(articleId),
                             likeNumber = NewsApi.retrofitService.getArticleLikeNum(articleId).result.toLong(),
-                            commentList = NewsApi.retrofitService.getCommentListByArticleId(articleId)
+                            commentList = NewsApi.retrofitService.getCommentListByArticleId(
+                                articleId
+                            )
                         )
 
                     }
@@ -157,7 +139,7 @@ class NewsAppViewModel : ViewModel() {
                         )
                     }
                 }
-                Log.d("z","id")
+                Log.d("z", "id")
                 // name
                 launch {
                     _userUiState.update { currentState ->
@@ -166,7 +148,7 @@ class NewsAppViewModel : ViewModel() {
                         )
                     }
                 }
-                Log.d("z","name")
+                Log.d("z", "name")
                 // bookmarkList
                 launch {
                     _userUiState.update { currentState ->
@@ -175,7 +157,7 @@ class NewsAppViewModel : ViewModel() {
                         )
                     }
                 }
-                Log.d("z","bookmarkList")
+                Log.d("z", "bookmarkList")
                 // likeNum
                 launch {
                     _userUiState.update { currentState ->
@@ -184,7 +166,7 @@ class NewsAppViewModel : ViewModel() {
                         )
                     }
                 }
-                Log.d("z","likeNum")
+                Log.d("z", "likeNum")
                 // commentNum and List
                 launch {
                     _userUiState.update { currentState ->
@@ -194,7 +176,7 @@ class NewsAppViewModel : ViewModel() {
                         )
                     }
                 }
-                Log.d("z","commentNum")
+                Log.d("z", "commentNum")
                 // followNum and List
                 launch {
                     _userUiState.update { currentState ->
@@ -204,7 +186,7 @@ class NewsAppViewModel : ViewModel() {
                         )
                     }
                 }
-                Log.d("z","followNum")
+                Log.d("z", "followNum")
             }
         }
     }
@@ -213,47 +195,54 @@ class NewsAppViewModel : ViewModel() {
     fun getArticleTable(
         tableType: Int = HEAD_TABLE,
         articleType: String = "",
-        userId : Long = -1,
-        searchText : String = ""
+        userId: Long = -1,
+        searchText: String = ""
     ) {
         viewModelScope.launch {
             when (tableType) {
                 HEAD_TABLE -> {
-                    // 先Loading
+                    // set up to Loading
                     headArticleTableUiState = HeadArticleTableUiState.Loading
+                    // only to simulate query's delay
                     delay(DELAY_TIME)
                     headArticleTableUiState = HeadArticleTableUiState.Success(
                         NewsApi.retrofitService.getArticleByType(articleType)
-
                     )
-                    Log.d(ContentValues.TAG,"111")
+
                 }
 
                 BOTTOM_TABLE -> {
+                    // set up to Loading
                     bottomArticleTableUiState = BottomArticleTableUiState.Loading
+                    // only to simulate query's delay
                     delay(DELAY_TIME)
                     bottomArticleTableUiState = BottomArticleTableUiState.Success(
                         NewsApi.retrofitService.getArticleByType(articleType)
                     )
-                    Log.d(ContentValues.TAG,"222")
+                    Log.d(ContentValues.TAG, "222")
                 }
 
                 BOOKMARKED_TABLE -> {
+                    // set up to Loading
                     bookMarkedTableUiState = BookMarkedTableUiState.Loading
+                    // only to simulate query's delay
                     delay(DELAY_TIME)
                     bookMarkedTableUiState = BookMarkedTableUiState.Success(
                         NewsApi.retrofitService.getBookmarkListById(userId)
                     )
-                    Log.d(ContentValues.TAG,"333")
+                    Log.d(ContentValues.TAG, "333")
                 }
 
                 SEARCH_TABLE -> {
+                    // set up to Loading
                     searchTableUiState = SearchTableUiState.Loading
+                    // only to simulate query's delay
                     delay(DELAY_TIME)
-                    if(searchText === ""){
-                        // do nothing
-                    }
-                    else{
+                    if (searchText === "") {
+                        /* search nothing so do nothing.
+                        * this results the UiState continue to be Loading
+                        */
+                    } else {
                         searchTableUiState = SearchTableUiState.Success(
                             NewsApi.retrofitService.getArticleByBlurText(searchText) +
                                     NewsApi.retrofitService.getArticleByBlurTitle(searchText) +
@@ -266,8 +255,8 @@ class NewsAppViewModel : ViewModel() {
         }
     }
 
-    fun setSuccessFalse(){
-        viewModelScope.launch{
+    fun setSuccessFalse() {
+        viewModelScope.launch {
             _userUiState.update { currentState ->
                 currentState.copy(
                     success = 0L
@@ -275,9 +264,10 @@ class NewsAppViewModel : ViewModel() {
             }
         }
     }
+
     // 时间转换
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun trans(releaseTime: String):String{
+    /*@RequiresApi(Build.VERSION_CODES.O)
+    fun trans(releaseTime: String): String {
         var dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         val current = releaseTime
@@ -291,18 +281,19 @@ class NewsAppViewModel : ViewModel() {
         val days = diff / (1000 * 60 * 60 * 24)
         val hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
         val minutes = ((diff - days * (1000 * 3600 * 24)) - hours * (1000 * 3600)) / (1000 * 60)
-        val second = (diff - days * 1000 * 3600 * 24 - hours * 1000 * 3600 - minutes * 1000 * 60) / 1000
-        if(days > 0)
+        val second =
+            (diff - days * 1000 * 3600 * 24 - hours * 1000 * 3600 - minutes * 1000 * 60) / 1000
+        if (days > 0)
             return "$days 天前"
-        else if(hours > 0)
+        else if (hours > 0)
             return "$hours 小时前"
-        else if(minutes > 0)
+        else if (minutes > 0)
             return "$minutes 分钟前"
-        else if(second > 0)
+        else if (second > 0)
             return "$second 秒前"
         else
             return "刚刚"
-    }
+    }*/
 
 }
 

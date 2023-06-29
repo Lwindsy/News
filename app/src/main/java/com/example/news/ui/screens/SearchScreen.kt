@@ -7,53 +7,26 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.news.R
 import com.example.news.data.SearchTableUiState
 import com.example.news.ui.utils.SearchField
-import com.example.news.ui.theme.Article_loading_card
-import com.example.news.ui.theme.Head_SearchBar
-import com.example.news.ui.theme.Loading_Card
 import com.example.news.ui.theme.LongCard
-import com.example.news.ui.theme.ShortCard
 import com.example.news.ui.viewmodel.NewsAppViewModel
-
-// 注意！你不应该在Screen部分更改State
-
-/*TODO 这个SearchScreen是用于显示搜索结果的 -> 马小乐
-    请你利用searchTable来
-* */
 
 @Composable
 fun SearchScreen(
@@ -63,7 +36,7 @@ fun SearchScreen(
     onReturnClicked: () -> Unit = {}
 ) {
     var inputValue by remember { mutableStateOf("") }
-    val input = inputValue ?: ""
+    val input = inputValue
 
     val searchTableState = viewModel.searchTableUiState
 
@@ -73,7 +46,7 @@ fun SearchScreen(
             contentDescription = "background_img",
             contentScale = ContentScale.Crop
         )
-        Column() {
+        Column {
             Row(
                 modifier = Modifier
                     .padding(start = 15.dp, top = 15.dp)

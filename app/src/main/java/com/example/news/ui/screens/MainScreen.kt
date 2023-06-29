@@ -96,7 +96,7 @@ fun MainScreenButton(
     onLogInButtonClicked: () -> Unit
 ) {
     Row(
-        //
+
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 50.dp),
