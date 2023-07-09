@@ -26,6 +26,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+
 //import java.text.SimpleDateFormat
 //import java.time.LocalDateTime
 //import java.time.format.DateTimeFormatter
@@ -37,7 +39,7 @@ const val BOTTOM_TABLE = 1
 const val BOOKMARKED_TABLE = 2
 const val SEARCH_TABLE = 3
 
-const val DELAY_TIME = 1300L
+const val DELAY_TIME = 3000L
 
 class NewsAppViewModel : ViewModel() {
 
@@ -71,18 +73,19 @@ class NewsAppViewModel : ViewModel() {
     private val _signUpInfoUiState = MutableStateFlow(SignUpInfoUiState())
     val signUpInfoUiState: StateFlow<SignUpInfoUiState> = _signUpInfoUiState.asStateFlow()
 
-    // 用于提交注册信息（暂时没用）
+    // 用于提交注册信息
     fun commitSignUpInfo(
         userItem: UserItem
     ) {
         viewModelScope.launch {
             _signUpInfoUiState.update { currentState ->
                 currentState.copy(
-                    signUpResultUiState = NewsApi.retrofitService.getSignUpResult(userItem).result == 1
+                    signUpResult = NewsApi.retrofitService.getSignUpResult(userItem).result == 1
                 )
             }
         }
     }
+
 
     // 用于提交用户登录信息
     fun cmpUserInfo(
@@ -92,8 +95,7 @@ class NewsAppViewModel : ViewModel() {
             _userUiState.update { currentState ->
                 currentState.copy(
                     success = NewsApi.retrofitService.getLoginResult(
-                        userItem.userId.toLong(),
-                        userItem.password
+                        userItem
                     ).result.toLong(),
                     userId = userItem.userId,
                     userName = userItem.userName

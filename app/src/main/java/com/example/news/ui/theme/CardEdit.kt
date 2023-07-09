@@ -55,8 +55,8 @@ fun ShortCard(
     }*/
     Card(modifier = Modifier
         .size(width = 160.dp, height = 160.dp)
-        .combinedClickable(/*enabled = enableState,*//* TODO -> szl
-                *   加个长按变大效果 */
+        .combinedClickable(/*enabled = enableState,*/
+            /* TODO 加个长按变大效果 */
             onLongClick = {
                 Log.d(TAG, "发生长按点击操作了～")
             }, onDoubleClick = {
@@ -105,12 +105,13 @@ fun LongCard(
     articleItem: ArticleItem, onArticleCardClick: (String) -> Unit = {}
 ) {
     val painter = painterResource(id = R.drawable.main_one)
-    Spacer(modifier = Modifier.width(5.dp))
+    Spacer(modifier = Modifier.height(20.dp))
     Card(
         modifier = Modifier
             .size(width = 390.dp, height = 160.dp)
-            .combinedClickable(/*enabled = enableState,*//* TODO -> szl
-                *   加个长按变大效果 */
+            .background(color = Color.Transparent)
+            .combinedClickable(/*enabled = enableState,*/
+                /* TODO 加个长按变大效果 */
                 onLongClick = {
                     Log.d(TAG, "发生长按点击操作了～")
                 }, onDoubleClick = {
@@ -120,10 +121,10 @@ fun LongCard(
                 }),
         shape = RoundedCornerShape(15.dp),
         elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 50.dp,
-        ),
-
-        ) {
+            //此处的dp是控制阴影的延展长度
+            defaultElevation = 5.dp,
+        )
+    ) {
         Box(modifier = Modifier.height(160.dp)) {
             Row {
                 Box(
@@ -228,6 +229,7 @@ fun Article_loading_card() {
 /* querying User's bookmark would only start when user successfully log in.So probably the ProfileLoadingCard is not necessary,
 * unless we start the query while entering profile.
 * */
+
 @Composable
 fun Profile_loading_card() {
     val infiniteTransition = rememberInfiniteTransition()
@@ -242,54 +244,69 @@ fun Profile_loading_card() {
             repeatMode = RepeatMode.Reverse
         )
     )
-    Spacer(modifier = Modifier.width(5.dp))
+    Spacer(modifier = Modifier.height(20.dp))
     Card(
-        modifier = Modifier.size(width = 400.dp, height = 700.dp),
+        modifier = Modifier
+            .size(width = 390.dp, height = 160.dp)
+            .background(color = Color.Transparent),
         shape = RoundedCornerShape(15.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 50.dp)
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 5.dp,
+        ),
     ) {
-        Column {
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .height(120.dp)
-                    .width(380.dp)
-                    .clip(RoundedCornerShape(15.dp))
-                    .background(Color.Gray.copy(alpha = alpha)),
-            ) {}
-            Spacer(modifier = Modifier.height(30.dp))
-            Box(
-                modifier = Modifier
-                    .height(130.dp)
-                    .width(380.dp)
-                    .clip(RoundedCornerShape(15.dp))
-                    .background(Color.Gray.copy(alpha = alpha)),
-            ) {}
-            Spacer(modifier = Modifier.height(20.dp))
-            Box(
-                modifier = Modifier
-                    .height(30.dp)
-                    .width(185.dp)
-                    .clip(RoundedCornerShape(15.dp))
-                    .background(Color.Gray.copy(alpha = alpha)),
-            ) {}
-            Spacer(modifier = Modifier.height(10.dp))
-            Box(
-                modifier = Modifier
-                    .height(30.dp)
-                    .width(185.dp)
-                    .clip(RoundedCornerShape(15.dp))
-                    .background(Color.Gray.copy(alpha = alpha)),
-            ) {}
+        Box(modifier = Modifier.height(160.dp)) {
+            Row {
+                Box(
+                    modifier = Modifier
+                        .size(width = 160.dp, height = 160.dp)
+                        .background(color = Color.Gray.copy(alpha = alpha)),
+                    contentAlignment = Alignment.BottomStart
+                ) {
+                }
+                Spacer(modifier = Modifier.width(5.dp))
+                Box(
+                    modifier = Modifier.size(width = 230.dp, height = 160.dp),
+                    contentAlignment = Alignment.TopStart
+                ) {
+                    Column {
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(width = 230.dp, height = 20.dp)
+                                .background(color = Color.Gray.copy(alpha = alpha))
+                        ) {
+
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(width = 230.dp, height = 85.dp)
+                                .background(color = Color.Gray.copy(alpha = alpha))
+                        ) {
+
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(width = 230.dp, height = 20.dp)
+                                .background(color = Color.Gray.copy(alpha = alpha))
+                        ) {
+
+                        }
+                    }
+                }
+
+            }
         }
     }
+
+
 }
 
 @Composable
 fun ShowCommentsCard(
     modifier: Modifier = Modifier, comment: CommentItem
 ) {
-
     Card(
         modifier = modifier
             .background(color = Color.White)
@@ -328,6 +345,6 @@ fun ShowCommentsCard(
 
 @Preview
 @Composable
-fun pre() {
-    Article_loading_card()
+fun Pre() {
+    Profile_loading_card()
 }

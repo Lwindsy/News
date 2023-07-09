@@ -71,8 +71,8 @@ interface NewsApiService {
     @GET("/likes/GALN/{id}")
     suspend fun getArticleLikeNum(@Path("id") id: Long): ServerResult
 
-    @GET("/user/login/{userId}/{password}")
-    suspend fun getLoginResult(@Path("userId") userId:Long,@Path("password") password:String): ServerResult
+    @POST("/user/login")
+    suspend fun getLoginResult(@Body user: UserItem): ServerResult
 }
 
 

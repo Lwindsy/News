@@ -51,7 +51,6 @@ import com.example.news.R
 
 @Composable
 fun InputField(
-    /* 状态提升 */
     value: String,                  // 当前要显示的值
     onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
     modifier: Modifier = Modifier

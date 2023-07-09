@@ -31,6 +31,7 @@ import com.example.news.R
 import com.example.news.ui.utils.ArticleScreenBar
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticleScreen(

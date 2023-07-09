@@ -264,7 +264,6 @@ fun NewsApp(
                         }
                         navController.navigate(AllScreen.HomePage.name)
                         viewModel.viewModelScope.launch{
-                            //
                             delay(1000)
                             viewModel.setSuccessFalse()
                         }
@@ -280,7 +279,6 @@ fun NewsApp(
                 SignUpScreen(
                     onSignUpButtonClicked = {
                         viewModel.commitSignUpInfo(it)
-                        navController.navigate(AllScreen.SignUp.name)
                     },
                     onLogInButtonClicked = {
                         navController.navigate(AllScreen.Login.name)
@@ -293,7 +291,8 @@ fun NewsApp(
                     },
                     onReturnClicked = {
                         navController.navigate(AllScreen.Login.name)
-                    }
+                    },
+                    viewModel = viewModel
                 )
             }
             composable(route = AllScreen.Search.name) {

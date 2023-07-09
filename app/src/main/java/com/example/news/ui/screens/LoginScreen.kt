@@ -39,6 +39,8 @@ import com.example.news.ui.utils.InputField
 import com.example.news.ui.utils.PasswordField
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
+
+/*TODO 加上注册按钮*/
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -92,7 +94,7 @@ fun LoginScreen(
                 modifier = modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,//设置水平居中对齐
-                verticalAlignment =  Alignment.CenterVertically//设置垂直居中对齐
+                verticalAlignment = Alignment.CenterVertically//设置垂直居中对齐
             ) {
                 Text(
 //                    text = "没有账号？",
@@ -109,11 +111,12 @@ fun LoginScreen(
             }
             Spacer(Modifier.height(30.dp))  // 增加间隔
 
-            when(userState.success.toString()){
+            when (userState.success.toString()) {
                 "1" -> {
                     onLogInSuccess()
-                    Log.d(ContentValues.TAG,"HI~~~")
+                    Log.d(ContentValues.TAG, "HI~~~")
                 }
+
                 "0" -> {
                     Column(
                         modifier = Modifier
@@ -128,6 +131,7 @@ fun LoginScreen(
                         )
                     }
                 }
+
                 else -> {
 
                 }
@@ -162,8 +166,8 @@ fun LoginScreen(
                 verticalAlignment = Alignment.CenterVertically  // 垂直居中
             ) {
                 /* TODO
-                * 需要加一个复选框，记住当前用户情况
-                * */
+                    需要加一个复选框，记住当前用户情况
+                */
                 Text(
                     text = "",
 //                    text = stringResource(R.string.login_remember),
@@ -197,7 +201,7 @@ fun LoginScreen(
                             password = pwd
                         )
                     )
-                    if (userState.success == 1L){
+                    if (userState.success == 1L) {
                         onLogInSuccess()
                     }
                 },

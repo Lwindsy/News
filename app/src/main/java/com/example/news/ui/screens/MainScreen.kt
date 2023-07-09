@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -105,20 +106,34 @@ fun MainScreenButton(
         // 垂直居中
         verticalAlignment = Alignment.CenterVertically
     ) {
-//        Button(
-//            onClick = onSignUpButtonClicked,
-//            modifier = Modifier.padding(end = 20.dp)    // 调整两个按钮之间的距离
-//        ) {
-//            Text(text = "注册")
-//        }
-        Button(onClick = onLogInButtonClicked) {
+        Button(
+            onClick = onLogInButtonClicked,
+            modifier = Modifier
+                .width(160.dp)
+                .padding(end = 10.dp)
+        ) {
             Text(
                 text = "登录",
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-//                    .fillMaxWidth()
-                    .size(width = 160.dp, height = 30.dp)
+                    .size(width = 120.dp, height = 30.dp)
+            )
+        }
+
+        Button(
+            onClick = onSignUpButtonClicked,
+            modifier = Modifier
+                .width(160.dp)
+                .padding(start = 10.dp)
+            // 调整两个按钮之间的距离
+        ) {
+            Text(
+                text = "注册",
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .size(width = 120.dp, height = 30.dp)
             )
         }
     }
@@ -146,10 +161,11 @@ fun Background_image(
     }
 }
 
-@Preview
+
 @Composable
-fun Prev() {
-    NewsTheme {
+@Preview
+fun pre_1() {
+    MainScreen(onSignUpButtonClicked = { /*TODO*/ }) {
 
     }
 }
