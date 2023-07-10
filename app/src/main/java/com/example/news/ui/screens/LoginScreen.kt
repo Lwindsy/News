@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -31,6 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.news.R
@@ -188,8 +193,9 @@ fun LoginScreen(
                 )
             }
 
-            Spacer(Modifier.height(100.dp))  // 增加间隔
+            Spacer(Modifier.height(10.dp))
 
+            // login button
             Button(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
@@ -205,7 +211,7 @@ fun LoginScreen(
                         onLogInSuccess()
                     }
                 },
-                shape = AbsoluteRoundedCornerShape(//圆角
+                shape = AbsoluteRoundedCornerShape(
                     topLeft = 10.dp,
                     topRight = 10.dp,
                     bottomLeft = 10.dp,
@@ -217,7 +223,59 @@ fun LoginScreen(
                     fontSize = 24.sp
                 )
             }
+
+            Spacer(Modifier.height(5.dp))
+
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                SignUpClickableText(onSignUpButtonClicked)
+            }
+        }
+    }
+}
+
+@Composable
+fun SignUpClickableText(
+    onSignUpButtonClicked: () -> Unit
+) {
+    val annotatedText = buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                color = Color.Gray,
+                fontSize = 14.sp,
+            )
+        ){
+            append("没有账号？去")
         }
 
+//        // We attach this *URL* annotation to the following content
+//        // until `pop()` is called
+//        pushStringAnnotation(
+//            tag = "URL",
+//            annotation = "https://developer.android.com"
+//        )
+        withStyle(
+            style = SpanStyle(
+                color = Color.Blue,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+            )
+        ) {
+            append("注册")
+        }
+
+//        pop()
     }
+
+    ClickableText(
+        text = annotatedText,
+        // this offset indicates the index of the clickableText of where you click
+        onClick = { offset ->
+            if(annotatedText[offset-1] == '注' || annotatedText[offset-1] == '册'){
+                onSignUpButtonClicked()
+            }
+        }
+    )
 }

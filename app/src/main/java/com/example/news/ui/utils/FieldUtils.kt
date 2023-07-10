@@ -83,8 +83,8 @@ fun InputField(
 
 @Composable
 fun PasswordField(
-    value: String,                  // 当前要显示的值
-    onValueChange: (String) -> Unit,// 值更改时触发，以便可以在其他位置更新状态
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
@@ -100,10 +100,11 @@ fun PasswordField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 15.dp, end = 15.dp)
-                .clip(RoundedCornerShape(20)),
-            singleLine = true,          // 单行
-            maxLines = 1,               // 最多一行
-            value = value,              // 框中的值
+                .clip(RoundedCornerShape(20))
+                ,
+            singleLine = true,
+            maxLines = 1,
+            value = value,
             onValueChange = onValueChange,
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent

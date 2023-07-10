@@ -6,12 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -27,6 +29,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,9 +47,10 @@ import kotlinx.coroutines.launch
 
 /* TODO
 *   ①注册成功出提示信息
-*   ③账号已存在的话也出错误信息( -> 账号已存在会出现网络异常，原因应该是服务器那边的插入出现key冲突异常导致)
-*   ④把inputField里的下划线去掉
-*   ⑤把登录二字做成像超链接一样的款式*/
+*   ②账号为空or密码为空时点注册时应该提示不能为空
+*   ③账号已存在的话也出错误信息( -> 账号已存在会出现网络异常，原因应该是服务器那边的插入出现key冲突异常导致)(已解决：在服务器那边抛了一下异常)
+*   ④把inputField里的下划线去掉（未解之谜）
+*   */
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
@@ -170,7 +177,7 @@ fun SignUpScreen(
                     )
                 }
 
-                Spacer(Modifier.height(60.dp))
+                Spacer(Modifier.height(10.dp))
 
                 // information
                 Text(
@@ -210,7 +217,7 @@ fun SignUpScreen(
                             }
                         }
                     },
-                    shape = AbsoluteRoundedCornerShape(//圆角
+                    shape = AbsoluteRoundedCornerShape(
                         topLeft = 10.dp,
                         topRight = 10.dp,
                         bottomLeft = 10.dp,
@@ -220,20 +227,63 @@ fun SignUpScreen(
                     Text(text = stringResource(R.string.signUp_button))
                 }
 
-                Spacer(Modifier.height(60.dp))  // 增加间隔
+                Spacer(Modifier.height(5.dp))
 
-                Text(
-                    text = "已有账号？登录", color = Color.Black,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .clickable {
-                            Log.i("ws", "去登录")
-                        }
-                )
+                Row(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    LogInClickableText(onLogInButtonClicked)
+                }
+
             }
         }
     }
 }
+
+@Composable
+fun LogInClickableText(
+    onLogInButtonClicked: () -> Unit
+) {
+    val annotatedText = buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                color = Color.Gray,
+                fontSize = 14.sp,
+            )
+        ){
+            append("已有帐号？去")
+        }
+
+//        // We attach this *URL* annotation to the following content
+//        // until `pop()` is called
+//        pushStringAnnotation(
+//            tag = "URL",
+//            annotation = "https://developer.android.com"
+//        )
+        withStyle(
+            style = SpanStyle(
+                color = Color.Blue,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+            )
+        ) {
+            append("登录")
+        }
+
+//        pop()
+    }
+
+    ClickableText(
+        text = annotatedText,
+        // this offset indicates the index of the clickableText of where you click
+        onClick = { offset ->
+            if(annotatedText[offset-1] == '登' || annotatedText[offset-1] == '录'){
+                onLogInButtonClicked()
+            }
+        }
+    )
+}
+
 
 @Composable
 @Preview

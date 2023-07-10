@@ -70,10 +70,6 @@ fun NewsAppHeadBar(
             Head_SearchBar(onSearchClick = onSearchClick)
         }
 
-        R.string.Signup -> {
-            Head_SignupBar()
-        }
-
         R.string.comment -> {
             Head_ArticleBar(
                 onReturnClicked = {
