@@ -39,6 +39,13 @@ const val BOTTOM_TABLE = 1
 const val BOOKMARKED_TABLE = 2
 const val SEARCH_TABLE = 3
 
+enum class SignUpInfo {
+    PWD_CHECK,
+    ID_EXISTED,
+    ID_NULL,
+    SIGNUP_SUCCESS,
+}
+
 const val DELAY_TIME = 3000L
 
 class NewsAppViewModel : ViewModel() {
@@ -257,6 +264,7 @@ class NewsAppViewModel : ViewModel() {
         }
     }
 
+    // set 'success' to 0L so that the message will not display in LogInScreen
     fun setSuccessFalse() {
         viewModelScope.launch {
             _userUiState.update { currentState ->
@@ -297,6 +305,53 @@ class NewsAppViewModel : ViewModel() {
             return "刚刚"
     }*/
 
+    fun setDisplayMsg(
+        MsgType: SignUpInfo,
+        value: Boolean
+    ) {
+        viewModelScope.launch {
+            _signUpInfoUiState.update { currentState ->
+                when (MsgType) {
+                    SignUpInfo.PWD_CHECK -> {
+                        currentState.copy(
+                            displayCheckResult = value
+                        )
+                    }
+
+                    SignUpInfo.ID_EXISTED -> {
+                        currentState.copy(
+                            displayIdExistedMsg = value
+                        )
+                    }
+
+                    SignUpInfo.SIGNUP_SUCCESS -> {
+                        currentState.copy(
+                            displaySignUpSuccess = value
+                        )
+                    }
+
+                    SignUpInfo.ID_NULL -> {
+                        currentState.copy(
+                            displayIdNullMsg = value
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun setAllSignUpInfoFalse(){
+        viewModelScope.launch {
+            _signUpInfoUiState.update { currentState ->
+                currentState.copy(
+                    displayCheckResult = false,
+                    displaySignUpSuccess = false,
+                    displayIdExistedMsg = false,
+                    displayIdNullMsg = false
+                )
+            }
+        }
+    }
 }
 
 

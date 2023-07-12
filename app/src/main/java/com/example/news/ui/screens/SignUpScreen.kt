@@ -42,14 +42,13 @@ import com.example.news.data.item.UserItem
 import com.example.news.ui.utils.InputField
 import com.example.news.ui.utils.PasswordField
 import com.example.news.ui.viewmodel.NewsAppViewModel
+import com.example.news.ui.viewmodel.SignUpInfo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /* TODO
-*   ①注册成功出提示信息
-*   ②账号为空or密码为空时点注册时应该提示不能为空
-*   ③账号已存在的话也出错误信息( -> 账号已存在会出现网络异常，原因应该是服务器那边的插入出现key冲突异常导致)(已解决：在服务器那边抛了一下异常)
-*   ④把inputField里的下划线去掉（未解之谜）
+*   ①把inputField里的下划线去掉（未解之谜）
+*   ②在注册按钮的onclick那，使注册结果返回后才执行接下来的语句（未解之谜）
 *   */
 @Composable
 fun SignUpScreen(
@@ -66,7 +65,7 @@ fun SignUpScreen(
 
         // three input variables
         var userId by remember { mutableStateOf("") }
-        val uId = userId      // 如果为空就置值为 ""
+        val uId = userId
 
         var password by remember { mutableStateOf("") }
         val pwd = password
@@ -74,10 +73,11 @@ fun SignUpScreen(
         var checkPassword by remember { mutableStateOf("") }
         val cpwd = checkPassword
 
-        var displayCheckResult by remember { mutableStateOf(false) }
-        var displayIdMsg by remember { mutableStateOf(false) }
-
         val signUpState by viewModel.signUpInfoUiState.collectAsState()
+        val displayIdExistedMsg = signUpState.displayIdExistedMsg
+        val displayIdNullMsg = signUpState.displayIdNullMsg
+        val displayCheckResult = signUpState.displayCheckResult
+        val displaySignUpSuccess = signUpState.displaySignUpSuccess
 
         Box {
             //background image
@@ -125,13 +125,23 @@ fun SignUpScreen(
                     value = uId,
                     onValueChange = {
                         userId = it
-                        displayIdMsg = false
+                        viewModel.setDisplayMsg(SignUpInfo.ID_NULL,false)
+                        viewModel.setDisplayMsg(SignUpInfo.ID_EXISTED,false)
                     },
                 )
 
-                if (!signUpState.signUpResult && displayIdMsg) {
+                if (!signUpState.signUpResult && displayIdExistedMsg) {
                     Text(
                         text = "此账号已存在！请重新输入",
+                        color = Color.Red,
+                        fontSize = 14.sp,
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    )
+                }
+
+                if(displayIdNullMsg){
+                    Text(
+                        text = "请输入账号！",
                         color = Color.Red,
                         fontSize = 14.sp,
                         modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -149,7 +159,7 @@ fun SignUpScreen(
                     value = pwd,
                     onValueChange = {
                         password = it
-                        displayCheckResult = false
+                        viewModel.setDisplayMsg(SignUpInfo.PWD_CHECK,false)
                     },
                 )
 
@@ -164,7 +174,7 @@ fun SignUpScreen(
                     value = cpwd,
                     onValueChange = {
                         checkPassword = it
-                        displayCheckResult = false
+                        viewModel.setDisplayMsg(SignUpInfo.PWD_CHECK,false)
                     },
                 )
 
@@ -173,6 +183,15 @@ fun SignUpScreen(
                         text = "两次输入密码不一致！请重新输入",
                         color = Color.Red,
                         fontSize = 14.sp,
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    )
+                }
+
+                if (displaySignUpSuccess) {
+                    Text(
+                        text = "注册成功！",
+                        color = Color(0xFF3A8846),
+                        fontSize = 17.sp,
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
                 }
@@ -196,23 +215,26 @@ fun SignUpScreen(
                         .size(width = 280.dp, height = 50.dp),
                     onClick = {
                         if (pwd != cpwd) {
-                            displayCheckResult = true
-                        } else {
-                            // this function calls a new coroutine to update the signUpState.
-                            onSignUpButtonClicked(
-                                UserItem(
-                                    userId = userId,
-                                    password = pwd
-                                )
-                            )
+                            viewModel.setDisplayMsg(SignUpInfo.PWD_CHECK,true)
+                        }else if (userId == ""){
+                            viewModel.setDisplayMsg(SignUpInfo.ID_NULL,true)
+                        }
+                        else {
                             viewModel.viewModelScope.launch {
+                                // this function calls a new coroutine to update the signUpState.
+                                onSignUpButtonClicked(
+                                    UserItem(
+                                        userId = userId,
+                                        password = pwd
+                                    )
+                                )
                                 // wait for the onSignUpButtonClicked till it finishes
                                 delay(200)
                                 // sign up successfully
                                 if (signUpState.signUpResult) {
                                     onSignUpSuccess()
                                 } else {
-                                    displayIdMsg = true
+                                    viewModel.setDisplayMsg(SignUpInfo.ID_EXISTED,true)
                                 }
                             }
                         }
@@ -234,7 +256,6 @@ fun SignUpScreen(
                 ) {
                     LogInClickableText(onLogInButtonClicked)
                 }
-
             }
         }
     }

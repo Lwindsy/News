@@ -50,9 +50,7 @@ import com.example.news.data.item.CommentItem
 fun ShortCard(
     articleItem: ArticleItem, onArticleCardClick: (String) -> Unit = {}
 ) {
-    val painter = painterResource(id = R.drawable.main_one)/*val enableState by remember {
-        mutableStateOf<Boolean>(true)
-    }*/
+    val painter = painterResource(id = R.drawable.main_one)
     Card(modifier = Modifier
         .size(width = 160.dp, height = 160.dp)
         .combinedClickable(/*enabled = enableState,*/

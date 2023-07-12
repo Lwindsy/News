@@ -162,10 +162,3 @@ fun Background_image(
 }
 
 
-@Composable
-@Preview
-fun pre_1() {
-    MainScreen(onSignUpButtonClicked = { /*TODO*/ }) {
-
-    }
-}

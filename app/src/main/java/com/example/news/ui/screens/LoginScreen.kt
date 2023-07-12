@@ -44,8 +44,6 @@ import com.example.news.ui.utils.InputField
 import com.example.news.ui.utils.PasswordField
 import com.example.news.ui.viewmodel.NewsAppViewModel
 
-
-/*TODO 加上注册按钮*/
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -172,6 +170,7 @@ fun LoginScreen(
             ) {
                 /* TODO
                     需要加一个复选框，记住当前用户情况
+                    这应该需要学习本地数据库ROOM，保存一下上次登录的信息
                 */
                 Text(
                     text = "",

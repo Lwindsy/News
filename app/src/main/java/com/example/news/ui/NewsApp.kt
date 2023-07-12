@@ -34,6 +34,7 @@ import com.example.news.ui.viewmodel.BOTTOM_TABLE
 import com.example.news.ui.viewmodel.HEAD_TABLE
 import com.example.news.ui.viewmodel.NewsAppViewModel
 import com.example.news.ui.viewmodel.SEARCH_TABLE
+import com.example.news.ui.viewmodel.SignUpInfo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -277,15 +278,19 @@ fun NewsApp(
                         viewModel.commitSignUpInfo(it)
                     },
                     onLogInButtonClicked = {
+                        viewModel.setAllSignUpInfoFalse()
                         navController.navigate(AllScreen.Login.name)
                     },
                     onSignUpSuccess = {
                         viewModel.viewModelScope.launch {
-                            delay(700)
+                            viewModel.setDisplayMsg(SignUpInfo.SIGNUP_SUCCESS,true)
+                            delay(1500)
                             navController.navigate(AllScreen.Login.name)
+                            viewModel.setAllSignUpInfoFalse()
                         }
                     },
                     onReturnClicked = {
+                        viewModel.setAllSignUpInfoFalse()
                         navController.navigate(AllScreen.Login.name)
                     },
                     viewModel = viewModel
